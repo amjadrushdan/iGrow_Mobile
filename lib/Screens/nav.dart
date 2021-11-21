@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/profile/profile_screen.dart';
+import 'package:flutter_auth/constants.dart';
 import 'group/group_screen.dart';
 import 'home/home_screen.dart';
 import 'message/message_screen.dart';
@@ -39,7 +40,7 @@ class _NavState extends State<Nav> {
             title: Text(
               'Home',
             ),
-            backgroundColor: Colors.green,
+            backgroundColor: kPrimaryColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -48,7 +49,7 @@ class _NavState extends State<Nav> {
             title: Text(
               'Group',
             ),
-            backgroundColor: Colors.green,
+            backgroundColor: kPrimaryColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -57,7 +58,7 @@ class _NavState extends State<Nav> {
             title: Text(
               'Messages',
             ),
-            backgroundColor: Colors.green,
+            backgroundColor: kPrimaryColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -66,7 +67,7 @@ class _NavState extends State<Nav> {
             title: Text(
               'Profile',
             ),
-            backgroundColor: Colors.green,
+            backgroundColor: kPrimaryColor,
           ),
         ],
         currentIndex: _selectedIndex,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/constants.dart';
 
 import '../nav.dart';
 
@@ -29,7 +30,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: Colors.green,
+            color: kPrimaryColor,
           ),
           onPressed: () {
             Navigator.push(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/constants.dart';
 
 import 'edit_profile.dart';
 
@@ -20,7 +21,7 @@ class Profile extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => SettingsUI()),
                 );
               },
-              splashColor: Colors.green,
+              splashColor: kPrimaryColor,
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -42,7 +43,7 @@ class Profile extends StatelessWidget {
             color: Colors.grey[300],
             child: InkWell(
               onTap: () {},
-              splashColor: Colors.green,
+              splashColor:kPrimaryColor,
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -64,7 +65,7 @@ class Profile extends StatelessWidget {
             color: Colors.grey[300],
             child: InkWell(
               onTap: () {},
-              splashColor: Colors.green,
+              splashColor: kPrimaryColor,
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -86,7 +87,7 @@ class Profile extends StatelessWidget {
             color: Colors.grey[300],
             child: InkWell(
               onTap: () {},
-              splashColor: Colors.green,
+              splashColor: kPrimaryColor,
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -98,7 +99,8 @@ class Profile extends StatelessWidget {
                     Text(
                       "Logout",
                       style: new TextStyle(fontSize: 17.0),
-                    )
+                    ),
+                    
                   ],
                 ),
               ),
