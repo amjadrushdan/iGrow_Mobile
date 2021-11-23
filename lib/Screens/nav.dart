@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/group/group_nav.dart';
 import 'package:flutter_auth/Screens/profile/profile_screen.dart';
 import 'package:flutter_auth/constants.dart';
-import 'group/group_screen.dart';
+import 'Settings/profile_screen.dart';
+import 'group/discover_group.dart';
 import 'home/home_screen.dart';
-import 'message/message_screen.dart';
 
 class Nav extends StatefulWidget {
   @override
@@ -14,9 +15,9 @@ class _NavState extends State<Nav> {
   int _selectedIndex = 0;
   List<Widget> _widgetOptions = <Widget>[
     Home(),
-    Group(),
-    Message(),
+    GroupNav(),
     Profile(),
+    Settings(),
   ];
 
   void _onItemTap(int index) {
@@ -32,6 +33,9 @@ class _NavState extends State<Nav> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        // backgroundColor: kPrimaryColor,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.black,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
@@ -53,19 +57,19 @@ class _NavState extends State<Nav> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.message,
+              Icons.person,
             ),
             title: Text(
-              'Messages',
+              'Profile',
             ),
             backgroundColor: kPrimaryColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.person,
+              Icons.settings,
             ),
             title: Text(
-              'Profile',
+              'Settings',
             ),
             backgroundColor: kPrimaryColor,
           ),

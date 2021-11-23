@@ -1,3 +1,6 @@
+import 'package:flutter_auth/constants.dart';
+
+import 'post_page.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -98,8 +101,13 @@ class _HomePage extends State<Home> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Colors.green,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Post()),
+          );
+        },
+        backgroundColor: kPrimaryColor,
         child: Icon(
           Icons.add,
         ),
