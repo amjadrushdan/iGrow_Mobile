@@ -69,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         onPressed: () {
+          // _login();
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Nav()),
@@ -181,9 +182,16 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  Future _login() async {
+    var data = {'Email': email, 'Pwd': password};
+
+    return await loginAuthData(data)
+        .timeout(const Duration(minutes: 1), onTimeout: () => 'Timeout');
+  }
+
   Future loginAuthData(data) async {
-    var res = await Network().authData(data, '/Loginpage');
-    var body = json.decode(res.body);
+    var res = await Network().authData(data, '/login');
+    var body = json.decode(res.body.toString());
     var success;
     if (body['success']) {
       print(body['user'].toString());
@@ -196,11 +204,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return success;
   }
 
-  Future _login() async {
-    var data = {'email': email, 'password': password};
-
-    return await loginAuthData(data)
-        .timeout(const Duration(minutes: 1), onTimeout: () => 'Timeout');
-  }
+  
 }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/settings/posts.dart';
 import 'package:flutter_auth/constants.dart';
-
+import 'package:flutter_auth/Screens/book_workshop/book.dart';
 import 'edit_profile.dart';
 
 class Settings extends StatelessWidget {
@@ -43,8 +43,11 @@ class Settings extends StatelessWidget {
           Card(
             color: Colors.grey[300],
             child: InkWell(
-              onTap: () {},
-              splashColor:kPrimaryColor,
+              onTap: () {
+                Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Booking()),);
+              },
+              splashColor: kPrimaryColor,
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -56,7 +59,8 @@ class Settings extends StatelessWidget {
                     Text(
                       "Book Workshop",
                       style: new TextStyle(fontSize: 17.0),
-                    )
+                    ),
+                    
                   ],
                 ),
               ),
@@ -106,7 +110,6 @@ class Settings extends StatelessWidget {
                       "Logout",
                       style: new TextStyle(fontSize: 17.0),
                     ),
-                    
                   ],
                 ),
               ),

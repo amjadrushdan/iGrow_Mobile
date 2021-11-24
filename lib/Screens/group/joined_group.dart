@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../constants.dart';
 
-class GroupDiscover extends StatefulWidget {
+class GroupJoined extends StatefulWidget {
   @override
-  _GroupDiscoverState createState() => _GroupDiscoverState();
+  _GroupJoinedState createState() => _GroupJoinedState();
 }
 
-class _GroupDiscoverState extends State<GroupDiscover> {
+class _GroupJoinedState extends State<GroupJoined> {
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class _GroupDiscoverState extends State<GroupDiscover> {
           ),
           title: Text("Group name"),
           subtitle: Text("Group description"),
-          trailing: Icon(Icons.add),
+          // trailing: Icon(Icons.add),
         ),
       ),
         ),

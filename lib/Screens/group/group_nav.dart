@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/group/joined_group.dart';
 import 'package:flutter_auth/constants.dart';
 import 'discover_group.dart';
 
@@ -44,9 +45,9 @@ class _GroupNavState extends State<GroupNav> {
           ),
           body: TabBarView(
             children: [
-              Group(),
+              GroupDiscover(),
               // Text("page 1"),
-              Text("page 2"),
+              GroupJoined(),
             ],
           ),
         ),
