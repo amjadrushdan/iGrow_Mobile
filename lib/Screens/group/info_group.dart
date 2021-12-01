@@ -20,7 +20,7 @@ class InfoGroupDiscover extends StatelessWidget {
       
       floatingActionButton: FloatingActionButton(
         backgroundColor: kPrimaryColor,
-        child: Icon(Icons.add),
+        child: Text("Join"),
         onPressed: () {},
       ),
 
