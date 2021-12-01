@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/group/joined_group.dart';
 import 'package:flutter_auth/constants.dart';
 import 'discover_group.dart';
-
-import '../../main.dart';
+import 'joined_group.dart';
 
 class GroupNav extends StatefulWidget {
 
@@ -46,7 +45,6 @@ class _GroupNavState extends State<GroupNav> {
           body: TabBarView(
             children: [
               GroupDiscover(),
-              // Text("page 1"),
               GroupJoined(),
             ],
           ),
