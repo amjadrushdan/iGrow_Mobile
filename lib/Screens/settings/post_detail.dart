@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/constants.dart';
-import 'http_service.dart';
+import 'booked_service.dart';
 import 'post_model.dart';
 
 class PostDetail extends StatelessWidget {
@@ -15,7 +15,7 @@ class PostDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(post.title),
+        title: Text(post.programme_name),
         backgroundColor: kPrimaryColor,
       ),
       floatingActionButton: FloatingActionButton(
@@ -33,16 +33,24 @@ class PostDetail extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 ListTile(
-                  title: Text("Title"),
-                  subtitle: Text(post.title),
+                  title: Text("Speaker"),
+                  subtitle: Text(post.speaker),
                 ),
                 ListTile(
-                  title: Text("Body"),
-                  subtitle: Text(post.body),
+                  title: Text("About"),
+                  subtitle: Text(post.desc),
                 ),
                 ListTile(
-                  title: Text("User ID"),
-                  subtitle: Text("${post.userId}"),
+                  title: Text("Start Time"),
+                  subtitle: Text("${post.start_time}"),
+                ),
+                ListTile(
+                  title: Text("End Time"),
+                  subtitle: Text("${post.end_time}"),
+                ),
+                ListTile(
+                  title: Text("Person In Charge"),
+                  subtitle: Text("${post.pic}"),
                 ),
               ],
             ),
