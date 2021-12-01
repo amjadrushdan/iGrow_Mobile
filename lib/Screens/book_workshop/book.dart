@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'book_detail.dart';
 import 'package:flutter_auth/constants.dart';
@@ -96,14 +94,14 @@ const Booking({key}): super(key: key);
               contentPadding: EdgeInsets.symmetric(
                   horizontal: 20.0, vertical: 10.0),
               title: Text(
-                "Workshop 1",
+                "Workshop 2",
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold),
               ),
               subtitle: Row(
                 children: <Widget>[
-                  Text("Description about workshop 1",
+                  Text("Description about workshop 2",
                       style: TextStyle(color: Colors.black))
                 ],
               ),
@@ -138,14 +136,14 @@ const Booking({key}): super(key: key);
               contentPadding: EdgeInsets.symmetric(
                   horizontal: 20.0, vertical: 10.0),
               title: Text(
-                "Workshop 1",
+                "Workshop 3",
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold),
               ),
               subtitle: Row(
                 children: <Widget>[
-                  Text("Description about workshop 1",
+                  Text("Description about workshop 3",
                       style: TextStyle(color: Colors.black))
                 ],
               ),
