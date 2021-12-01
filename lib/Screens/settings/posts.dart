@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/constants.dart';
-import 'http_service.dart';
+import 'booked_service.dart';
 import 'post_detail.dart';
 import 'post_model.dart';
 
@@ -23,10 +23,14 @@ class PostsPage extends StatelessWidget {
               return ListView(
                 children: posts!
                     .map((Post post) => ListTile(
-                          title: Text(post.title),
-                          subtitle: Text(
-                            post.id.toString(),
-                          ),
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  color: Color.fromRGBO(0, 0, 50, 0.5),
+                                  width: 0.5),
+                              borderRadius: BorderRadius.circular(5)),
+                          minVerticalPadding: 10,
+                          title: Text(post.programme_name),
+                          subtitle: Text(post.date),
                           onTap: () =>
                               Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => PostDetail(
@@ -35,6 +39,7 @@ class PostsPage extends StatelessWidget {
                           )),
                         ))
                     .toList(),
+                padding: const EdgeInsets.all(12.0),
               );
             }
             return Center(child: CircularProgressIndicator());

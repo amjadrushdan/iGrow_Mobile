@@ -1,10 +1,9 @@
 import 'dart:convert';
-
 import 'post_model.dart';
 import 'package:http/http.dart';
 
 class HttpService {
-  final String postsUrl = "https://jsonplaceholder.typicode.com/posts";
+  final String postsUrl = "https://retoolapi.dev/oEP796/data";
 
   Future<void> deletePost(int id) async {
     Response res = await delete(Uri.parse("$postsUrl/$id"));
