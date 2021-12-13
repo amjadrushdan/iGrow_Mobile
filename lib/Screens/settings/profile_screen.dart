@@ -1,10 +1,21 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/login/login_screen.dart';
 import 'package:flutter_auth/Screens/settings/posts.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/Screens/book_workshop/book.dart';
 import 'edit_profile.dart';
+import 'package:flutter_auth/service/authentication_service.dart';
 
 class Settings extends StatelessWidget {
+
+  Future<void> _signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      print(e); // TODO: show dialog with error
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +107,13 @@ class Settings extends StatelessWidget {
           Card(
             color: Colors.grey[300],
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                _signOut();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
               splashColor: kPrimaryColor,
               child: Center(
                 child: Column(

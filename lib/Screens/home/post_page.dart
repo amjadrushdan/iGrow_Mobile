@@ -1,6 +1,90 @@
+// import 'package:flutter/material.dart';
+// import 'package:flutter_auth/constants.dart';
+// import '../nav.dart';
+
+// class Post extends StatefulWidget {
+//   Post({key}) : super(key: key);
+
+//   @override
+//   _PostState createState() => _PostState();
+// }
+
+// class _PostState extends State<Post> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+//         elevation: 1,
+//         leading: IconButton(
+//           icon: Icon(
+//             Icons.arrow_back,
+//             color: kPrimaryColor,
+//             size: 30.0,
+//           ),
+//           onPressed: () {
+//             Navigator.push(
+//               context,
+//               MaterialPageRoute(builder: (context) => Nav()),
+//             );
+//           },
+//         ),
+//         actions: [
+//           IconButton(
+//             icon: Icon(
+//               Icons.post_add,
+//               color: kPrimaryColor,
+//               size: 30.0,
+//             ),
+//             onPressed: () {
+//               Navigator.of(context).push(
+//                   MaterialPageRoute(builder: (BuildContext context) => Nav()));
+//             },
+//           ),
+//         ],
+//       ),
+//       body: Column(
+//         children: <Widget>[
+//           Card(
+//             child: Padding(
+//               padding: EdgeInsets.all(8.0),
+//               child: TextField(
+//                 maxLines: 10,
+//                 decoration:
+//                     InputDecoration.collapsed(hintText: "Enter your text here"),
+//               ),
+//             ),
+//           ),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//             children: [
+//               RaisedButton(
+//                 onPressed: () {},
+//                 color: kPrimaryColor,
+//                 padding: EdgeInsets.symmetric(horizontal: 50),
+//                 elevation: 2,
+//                 shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(20)),
+//                 child: Text(
+//                   "UPLOAD IMAGE",
+//                   style: TextStyle(
+//                       fontSize: 14, letterSpacing: 2.2, color: Colors.white),
+//                 ),
+//               )
+//             ],
+//           )
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/constants.dart';
 import '../nav.dart';
+// import 'package:http/http.dart' as http;
+
+import 'feed_service.dart';
 
 class Post extends StatefulWidget {
   Post({key}) : super(key: key);
@@ -10,6 +94,9 @@ class Post extends StatefulWidget {
 }
 
 class _PostState extends State<Post> {
+  final TextEditingController title = TextEditingController();
+  final TextEditingController message = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +124,9 @@ class _PostState extends State<Post> {
               size: 30.0,
             ),
             onPressed: () {
+              setState(() {
+                createFeed(title.text, message.text);
+              });
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (BuildContext context) => Nav()));
             },
@@ -49,9 +139,21 @@ class _PostState extends State<Post> {
             child: Padding(
               padding: EdgeInsets.all(8.0),
               child: TextField(
+                controller: title,
+                // maxLines: 10,
+                decoration: InputDecoration.collapsed(
+                    hintText: "Enter your title here"),
+              ),
+            ),
+          ),
+          Card(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: TextField(
+                controller: message,
                 maxLines: 10,
-                decoration:
-                    InputDecoration.collapsed(hintText: "Enter your text here"),
+                decoration: InputDecoration.collapsed(
+                    hintText: "Enter your message here"),
               ),
             ),
           ),

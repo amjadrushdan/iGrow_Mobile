@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "560754187678",
+    "project_id": "igrow-kms-e3bec",
+    "storage_bucket": "igrow-kms-e3bec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560754187678:android:ed5bd80e789275ad73ca8f",
+        "android_client_info": {
+          "package_name": "com.example.flutter_auth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "560754187678-eratkm1ds5038joehr0rqtplmb711tq6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQMkqZRq5sh3jmRWcrg-VlCSJmZxq_jVE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "560754187678-eratkm1ds5038joehr0rqtplmb711tq6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
