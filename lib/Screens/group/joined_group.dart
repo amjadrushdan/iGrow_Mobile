@@ -12,7 +12,7 @@ Future<List<Group>?> getGroup() async {
 
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => new Group.fromJson(data)).toList();
+    // return jsonResponse.map((data) => new Group.fromJson(data)).toList();
   } else {
     throw Exception('Unexpected error occured!');
   }
