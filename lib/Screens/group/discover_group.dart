@@ -97,42 +97,40 @@ class _GroupDiscoverState extends State<GroupDiscover> {
         //   },
         // ),
         body: Center(
-      child :FutureBuilder(
-        future: _fireStore.collection('group').get(),
-        builder: (context, snapshot) {
-          DocumentSnapshot? document = snapshot.data as DocumentSnapshot;
-          if (!snapshot.hasData)
-          return Center(
-            child: const CircularProgressIndicator(),
-          );
 
-          return ListView.builder(itemBuilder: (context, index) {
-
-            return ListTile(
-              leading: const Icon(Icons.group),
-              title: Text((document.data()! as dynamic) ['name']),
-              trailing: Icon(Icons.add),
-            );
-          });
-        },
-      ),
-
-
-      // child: StreamBuilder<QuerySnapshot>(
-      //   stream: _fireStore.collection('group').snapshots(),
+      // child :FutureBuilder(
+      //   future: _fireStore.collection('group').get(),
       //   builder: (context, snapshot) {
-      //     if (!snapshot.hasData){
-      //       return Center(
-      //         child: const CircularProgressIndicator(),
+      //     DocumentSnapshot? document = snapshot.data as DocumentSnapshot;
+      //     if (!snapshot.hasData)
+      //     return Center(
+      //       child: const CircularProgressIndicator(),
+      //     );
+
+      //     return ListView.builder(itemBuilder: (context, index) {
+
+      //       return ListTile(
+      //         leading: const Icon(Icons.group),
+      //         title: Text((document.data()! as dynamic) ['name']),
+      //         trailing: Icon(Icons.add),
       //       );
-      //     }
-      //     else
-      //       return ListView(
-             
-      //       )
-
-
+      //     });
       //   },
+      // ),
+
+
+      child: StreamBuilder<QuerySnapshot>(
+        stream: _fireStore.collection('group').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData){
+            return Center(
+              child: const CircularProgressIndicator(),
+            );
+          }
+          else
+            return Text("Testing ...");
+        },
+      )
       ),
     );
   }
