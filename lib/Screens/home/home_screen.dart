@@ -239,19 +239,22 @@ class _HomeState extends State<Home> {
                                             ],
                                           ),
                                         ),
+                                        // Padding(
+                                        //   padding: const EdgeInsets.symmetric(
+                                        //       vertical: 10.0),
+                                        //   child: Text(
+                                        //     feed[index].title,
+                                        //     style: TextStyle(fontSize: 16.0),
+                                        //   ),
+                                        // ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 10.0),
                                           child: Text(
-                                            feed[index].title,
-                                            style: TextStyle(fontSize: 16.0),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10.0),
-                                          child: Text(
-                                            feed[index].message,
+                                            'Title: ' +
+                                                feed[index].title +
+                                                '\n\n' +
+                                                feed[index].message,
                                             style: TextStyle(fontSize: 16.0),
                                           ),
                                         ),
@@ -270,8 +273,8 @@ class _HomeState extends State<Home> {
                         );
                       });
                 } else {
-                  return Text("${snapshot.error}");
-                  // return const CircularProgressIndicator();
+                  // return Text("${snapshot.error}");
+                  return const CircularProgressIndicator();
                 }
               })),
       floatingActionButton: FloatingActionButton(
