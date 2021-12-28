@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/group/group_nav.dart';
 import 'package:flutter_auth/Screens/profile/profile_screen.dart';
 import 'package:flutter_auth/constants.dart';
-import 'Settings/profile_screen.dart';
+import 'Settings/settings.dart';
 import 'group/discover_group.dart';
 import 'home/home_screen.dart';
 

@@ -1,10 +1,11 @@
+//old home_screen page
+//look back as referens if something happens
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/home/feed_model.dart';
 import 'package:flutter_auth/Screens/home/post_page.dart';
 import '../../constants.dart';
-import 'feed_service.dart';
-import 'feed_model.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -16,8 +17,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final Stream<QuerySnapshot> feed = FirebaseFirestore.instance
       .collection('feed')
+      .orderBy('created_at')
       .where('group_id', isEqualTo: 0)
       .snapshots();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,14 +45,8 @@ class _HomeState extends State<Home> {
                   final data = snapshot.requireData;
                   return ListView.builder(
                       itemCount: data.size,
-                      itemBuilder: (BuildContext context, int index) {
-                        // return Container(
-                        //   height: 75,
-                        //   color: Colors.white,
-                        //   child: Center(
-                        //     child: Text(feed[index].creatorId),
-                        //   ),
-                        // );
+                      itemBuilder: (BuildContext context, int reverseindex) {
+                        int index = data.size - 1 - reverseindex;
                         return Column(
                           children: <Widget>[
                             Padding(
@@ -117,7 +114,8 @@ class _HomeState extends State<Home> {
                                           child: Text(
                                             'Title: ' +
                                                 "${data.docs[index]['title']}" +
-                                                '\n\n' +
+                                                // '\n\n' +
+                                                '\nㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ' +
                                                 "${data.docs[index]['message']}",
                                             style: TextStyle(fontSize: 16.0),
                                           ),
@@ -137,6 +135,7 @@ class _HomeState extends State<Home> {
                         );
                       });
                 } else {
+                  print("${snapshot.error}");
                   // return Text("${snapshot.error}");
                   return const CircularProgressIndicator();
                 }
