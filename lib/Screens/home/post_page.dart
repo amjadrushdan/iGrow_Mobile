@@ -1,9 +1,9 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/home/storage.dart';
 import 'package:flutter_auth/constants.dart';
-import 'package:flutter_auth/service/authentication_service.dart';
-import 'package:intl/intl.dart';
 import '../nav.dart';
 
 class Post extends StatefulWidget {
@@ -20,6 +20,9 @@ class _PostState extends State<Post> {
   var group_id = 0;
   DateTime created_at = new DateTime.now();
   final _formKey = GlobalKey<FormState>();
+  File? image;
+  late Future imageUrl;
+  Storage _storage = new Storage();
   // var intcreated = new DateTime.now().toUtc().millisecondsSinceEpoch;
 
   @override
@@ -56,6 +59,7 @@ class _PostState extends State<Post> {
                     'message': message,
                     'group_id': 0,
                     'created_at': created_at,
+                    'imageUrl': _storage.getUrl(),
                     // 'intcreated': intcreated,
                     'creator_id': auth.currentUser!.uid.toString(),
                   })
@@ -106,23 +110,67 @@ class _PostState extends State<Post> {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              RaisedButton(
-                onPressed: () {},
-                color: kPrimaryColor,
-                padding: EdgeInsets.symmetric(horizontal: 50),
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                child: Text(
-                  "UPLOAD IMAGE",
-                  style: TextStyle(
-                      fontSize: 14, letterSpacing: 2.2, color: Colors.white),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: [
+          //     RaisedButton(
+          //       onPressed: () {},
+          //       color: kPrimaryColor,
+          //       padding: EdgeInsets.symmetric(horizontal: 50),
+          //       elevation: 2,
+          //       shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(20)),
+          //       child: Text(
+          //         "UPLOAD IMAGE",
+          //         style: TextStyle(
+          //             fontSize: 14, letterSpacing: 2.2, color: Colors.white),
+          //       ),
+          //     )
+          //   ],
+          // ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    height: 140,
+                    width: 180,
+                    color: Colors.black12,
+                    child: image == null
+                        ? Icon(
+                            Icons.image,
+                            size: 50,
+                          )
+                        : Image.file(
+                            image!,
+                            fit: BoxFit.fill,
+                          )),
+                ElevatedButton(
+                  child: Text('Pick Image'),
+                  style: ElevatedButton.styleFrom(primary: kPrimaryColor),
+                  onPressed: () {
+                    _storage.getImage(context).then((file) {
+                      setState(() {
+                        image = File(file.path);
+                        print(file.path);
+                      });
+                    });
+                  },
                 ),
-              )
-            ],
+                TextButton(
+                    onPressed: () {
+                      if (image != null)
+                        _storage.uploadFile(image!, context);
+                      else
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("No Image was selected")));
+                    },
+                    child: Text(
+                      'Upload Image',
+                      style: TextStyle(color: kPrimaryColor),
+                    ))
+              ],
+            ),
           ),
         ],
       ),

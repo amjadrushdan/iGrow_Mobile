@@ -131,7 +131,7 @@ class _ProfileState extends State<Profile> {
                                           ),
                                         ),
                                         Image.network(
-                                            'https://img.purch.com/rc/1680x1050/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzA0My8zMjgvb3JpZ2luYWwvYXJvdW5kLWEtc3Rhci1zeXN0ZW0tMTkyMC5qcGc='),
+                                            "${data.docs[index]['imageUrl']}"),
                                       ],
                                     ),
                                   )
