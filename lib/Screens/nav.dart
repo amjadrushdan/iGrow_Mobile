@@ -3,7 +3,6 @@ import 'package:flutter_auth/Screens/group/group_nav.dart';
 import 'package:flutter_auth/Screens/profile/profile_screen.dart';
 import 'package:flutter_auth/constants.dart';
 import 'Settings/settings.dart';
-import 'group/discover_group.dart';
 import 'home/home_screen.dart';
 
 class Nav extends StatefulWidget {
@@ -41,36 +40,28 @@ class _NavState extends State<Nav> {
             icon: Icon(
               Icons.home,
             ),
-            title: Text(
-              'Home',
-            ),
+            label: "Home",
             backgroundColor: kPrimaryColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.group,
             ),
-            title: Text(
-              'Group',
-            ),
+            label:"Group",
             backgroundColor: kPrimaryColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
             ),
-            title: Text(
-              'Profile',
-            ),
+            label: "Profile",
             backgroundColor: kPrimaryColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.settings,
             ),
-            title: Text(
-              'Settings',
-            ),
+            label: "Settings",
             backgroundColor: kPrimaryColor,
           ),
         ],

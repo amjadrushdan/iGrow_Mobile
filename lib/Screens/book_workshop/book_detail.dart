@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/components/rounded_button.dart';
 import 'package:flutter_auth/constants.dart';
 
 class BookingDetail extends StatelessWidget{
-  List<String> items = <String>[
+  final List<String> items = <String>[
     'Select', 'Session 1: 24/11/2021 10:00 AM - 12:00 PM', 
     'Session 2: 2/12/2021 2:00 PM - 5:00 PM',
     'Session 3: 14/1/2022 2:00 PM - 5:00 PM',

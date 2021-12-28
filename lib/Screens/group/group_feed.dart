@@ -3,10 +3,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/group/group_nav.dart';
 // import 'package:flutter_auth/Screens/GroupFeed/post_page.dart';
 import '../../constants.dart';
-import '../nav.dart';
 import 'group_post.dart';
 
 class GroupFeed extends StatefulWidget {

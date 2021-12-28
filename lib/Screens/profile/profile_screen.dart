@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/nav.dart';
 import 'package:flutter_auth/Screens/profile/edit_post.dart';
 
 class Profile extends StatefulWidget {
