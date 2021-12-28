@@ -1,53 +1,22 @@
-// // import 'dart:convert';
-// // import 'package:flutter_auth/constants.dart';
-// // import 'post_page.dart';
-// // import 'package:flutter/material.dart';
-// // import 'package:http/http.dart' as http;
-// // import 'dart:async';
-// // // import 'feed_model.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_auth/Screens/home/post_page.dart';
+// import '../../constants.dart';
 
-// // Future<Feed> fetchFeed() async {
-// //   final response =
-// //       await http.get(Uri.parse('https://retoolapi.dev/UAoyEV/feed/'));
+// class Home extends StatefulWidget {
+//   Home({Key? key}) : super(key: key);
 
-// //   if (response.statusCode == 200) {
-// //     // If the server did return a 200 OK response,
-// //     // then parse the JSON.
+//   @override
+//   _HomeState createState() => _HomeState();
+// }
 
-// //     return Feed.fromJson(jsonDecode(response.body));
-// //   } else {
-// //     // If the server did not return a 200 OK response,
-// //     // then throw an exception.
-// //     throw Exception('Failed to load album');
-// //   }
-// // }
-
-// // class Feed {
-// //   Feed({
-// //     required this.id,
-// //     required this.username,
-// //     required this.desc,
-// //   });
-
-// //   int id;
-// //   String username;
-// //   String desc;
-
-// //   factory Feed.fromJson(Map<String, dynamic> json) {
-// //     return Feed(
-// //       id: json['id'],
-// //       username: json['username'],
-// //       desc: json['desc'],
-// //     );
-// //   }
-// // }
-
-// // class Home extends StatefulWidget {
-// //   @override
-// //   _HomePage createState() => _HomePage();
-// // }
-
-// // class _HomePage extends State<Home> {
+// class _HomeState extends State<Home> {
+//   final Stream<QuerySnapshot> feed = FirebaseFirestore.instance
+//       .collection('feed')
+//       .orderBy('created_at')
+//       .where('group_id', isEqualTo: 0)
+//       .snapshots();
 
 //   @override
 //   Widget build(BuildContext context) {
@@ -65,99 +34,150 @@
 //         ),
 //       ),
 //       body: Center(
-//         child: FutureBuilder<Feed>(
-//           future: futureFeed,
-//           builder: (context, snapshot) {
-//             if (snapshot.hasData) {
-//               return ListTile(
-//                 title: Text(snapshot.data!.username),
-//                 subtitle: Text(snapshot.data!.desc),
-//               );
-//             } else if (snapshot.hasError) {
-//               return Text('${snapshot.error}');
-//             }
+//           child: StreamBuilder<QuerySnapshot>(
+//               stream: feed,
+//               builder: (BuildContext context,
+//                   AsyncSnapshot<QuerySnapshot> snapshot) {
+//                 if (snapshot.hasError) {
+//                   return Text("something is wrong");
+//                 }
+//                 if (snapshot.connectionState == ConnectionState.waiting) {
+//                   return Center(
+//                     child: CircularProgressIndicator(),
+//                   );
+//                 }
+//                 final data = snapshot.requireData;
+//                 return ListView.builder(
+//                     itemCount: data.size,
+//                     itemBuilder: (BuildContext context, int reverseindex) {
+//                       int index = data.size - 1 - reverseindex;
 
-//             // By default, show a loading spinner.
-//             return const CircularProgressIndicator();
-//           },
-//         ),
-//       ),
-//       body: ListView.builder(
-//         itemCount: 10,
-//         itemBuilder: (context, position) {
-//           return Column(
-//             children: <Widget>[
-//               Padding(
-//                 padding: const EdgeInsets.all(4.0),
-//                 child: Row(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: <Widget>[
-//                     Padding(
-//                       padding: const EdgeInsets.all(8.0),
-//                       child: Icon(
-//                         Icons.account_circle,
-//                         size: 60.0,
-//                         color: Colors.grey,
-//                       ),
-//                     ),
-//                     Expanded(
-//                       child: Column(
-//                         mainAxisAlignment: MainAxisAlignment.start,
-//                         children: <Widget>[
-//                           Padding(
-//                             padding: const EdgeInsets.only(top: 5.0),
-//                             child: Row(
-//                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                               children: <Widget>[
-//                                 Expanded(
-//                                   child: Container(
-//                                       child: RichText(
-//                                     text: TextSpan(children: [
-//                                       TextSpan(
-//                                         text: "John Doe",
-//                                         style: TextStyle(
-//                                             fontWeight: FontWeight.w600,
-//                                             fontSize: 18.0,
-//                                             color: Colors.black),
+//                       //edit here
+//                       final Stream<QuerySnapshot> username = FirebaseFirestore
+//                           .instance
+//                           .collection('member')
+//                           .where('userid',
+//                               isEqualTo: "${data.docs[index]['creator_id']}")
+//                           .snapshots();
+//                       return StreamBuilder(
+//                         stream: username,
+//                         builder: (BuildContext context,
+//                             AsyncSnapshot<QuerySnapshot> snapshot2) {
+//                           if (snapshot2.hasError) {
+//                             return Text("something is wrong");
+//                           }
+//                           if (snapshot2.connectionState ==
+//                               ConnectionState.waiting) {
+//                             return Center(
+//                               child: CircularProgressIndicator(),
+//                             );
+//                           }
+//                           return Column(
+//                             children: <Widget>[
+//                               Padding(
+//                                 padding: const EdgeInsets.all(4.0),
+//                                 child: Row(
+//                                   crossAxisAlignment: CrossAxisAlignment.start,
+//                                   children: <Widget>[
+//                                     Padding(
+//                                       padding: const EdgeInsets.all(8.0),
+//                                       child: Icon(
+//                                         Icons.account_circle,
+//                                         size: 60.0,
+//                                         color: Colors.grey,
 //                                       ),
-//                                     ]),
-//                                     overflow: TextOverflow.ellipsis,
-//                                   )),
-//                                   flex: 5,
-//                                 ),
-//                                 Expanded(
-//                                   child: Padding(
-//                                     padding: const EdgeInsets.only(right: 4.0),
-//                                     child: Icon(
-//                                       Icons.share,
-//                                       color: Colors.grey,
 //                                     ),
-//                                   ),
-//                                   // flex: 1,
+//                                     Expanded(
+//                                       child: Column(
+//                                         mainAxisAlignment:
+//                                             MainAxisAlignment.start,
+//                                         children: <Widget>[
+//                                           Padding(
+//                                             padding:
+//                                                 const EdgeInsets.only(top: 5.0),
+//                                             child: Row(
+//                                               mainAxisAlignment:
+//                                                   MainAxisAlignment
+//                                                       .spaceBetween,
+//                                               children: <Widget>[
+//                                                 Expanded(
+//                                                   child: Container(
+//                                                       child: RichText(
+//                                                     text: TextSpan(children: [
+//                                                       TextSpan(
+//                                                         text:
+//                                                             "${snapshot2.data!.docChanges[0].doc['username']}",
+//                                                         style: TextStyle(
+//                                                             fontWeight:
+//                                                                 FontWeight.w600,
+//                                                             fontSize: 18.0,
+//                                                             color:
+//                                                                 Colors.black),
+//                                                       ),
+//                                                     ]),
+//                                                     overflow:
+//                                                         TextOverflow.ellipsis,
+//                                                   )),
+//                                                   flex: 5,
+//                                                 ),
+//                                                 //put it here
+//                                                 //  Expanded(
+//                                                 //   child: Padding(
+//                                                 //     padding:
+//                                                 //         const EdgeInsets.only(
+//                                                 //             right: 4.0),
+//                                                 //     child: IconButton(
+//                                                 //       icon: Icon(Icons.edit),
+//                                                 //       color: Colors.grey,
+//                                                 //       onPressed: () {
+//                                                 //         Navigator.push(
+//                                                 //           context,
+//                                                 //           MaterialPageRoute(
+//                                                 //               builder:
+//                                                 //                   (context) =>
+//                                                 //                       editPost(
+//                                                 //                         docid: snapshot
+//                                                 //                             .data!
+//                                                 //                             .docs[index],
+//                                                 //                       )),
+//                                                 //         );
+//                                                 //       },
+//                                                 //     ),
+//                                                 //   ),
+//                                                 //   // flex: 1,
+//                                                 // ),
+//                                               ],
+//                                             ),
+//                                           ),
+//                                           Padding(
+//                                             padding: const EdgeInsets.symmetric(
+//                                                 vertical: 10.0),
+//                                             child: Text(
+//                                               'Title: ' +
+//                                                   "${data.docs[index]['title']}" +
+//                                                   // '\n\n' +
+//                                                   '\nㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ' +
+//                                                   "${data.docs[index]['message']}",
+//                                               style: TextStyle(fontSize: 16.0),
+//                                             ),
+//                                           ),
+//                                           Image.network(
+//                                               'https://img.purch.com/rc/1680x1050/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzA0My8zMjgvb3JpZ2luYWwvYXJvdW5kLWEtc3Rhci1zeXN0ZW0tMTkyMC5qcGc='),
+//                                         ],
+//                                       ),
+//                                     )
+//                                   ],
 //                                 ),
-//                               ],
-//                             ),
-//                           ),
-//                           Padding(
-//                             padding: const EdgeInsets.symmetric(vertical: 10.0),
-//                             child: Text(
-//                               'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hac habitasse platea dictumst. Vivamus auctor magna ut arcu mattis, ut volutpat risus cursus. In eget finibus dui. Duis vitae molestie odio.',
-//                               style: TextStyle(fontSize: 16.0),
-//                             ),
-//                           ),
-//                           Image.network(
-//                               'https://img.purch.com/rc/1680x1050/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzA0My8zMjgvb3JpZ2luYWwvYXJvdW5kLWEtc3Rhci1zeXN0ZW0tMTkyMC5qcGc='),
-//                         ],
-//                       ),
-//                     )
-//                   ],
-//                 ),
-//               ),
-//               Divider(),
-//             ],
-//           );
-//         },
-//       ),
+//                               ),
+//                               Divider(
+//                                 thickness: 0.7,
+//                               ),
+//                             ],
+//                           );
+//                         },
+//                       );
+//                     });
+//               })),
 //       floatingActionButton: FloatingActionButton(
 //         onPressed: () {
 //           Navigator.push(

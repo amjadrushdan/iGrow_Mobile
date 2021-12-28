@@ -35,11 +35,11 @@ class _GroupNavState extends State<GroupNav> {
               labelColor: Colors.black,
               tabs: [
                 Tab(text: 'Discover'),
-                Tab(text: 'Groups'),
+                Tab(text: 'Joined'),
               ],
             ),
 
-            elevation: 20,
+            elevation: 4,
             titleSpacing: 20,
           ),
           body: TabBarView(

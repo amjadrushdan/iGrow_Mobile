@@ -1,36 +1,36 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/nav.dart';
-import 'package:flutter_auth/Screens/profile/edit_post.dart';
+//old GroupFeed_screen page
+//look back as referens if something happens
 
-class Profile extends StatefulWidget {
-  Profile({Key? key}) : super(key: key);
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/group/group_nav.dart';
+// import 'package:flutter_auth/Screens/GroupFeed/post_page.dart';
+import '../../constants.dart';
+import '../nav.dart';
+import 'group_post.dart';
+
+class GroupFeed extends StatefulWidget {
+  final DocumentSnapshot docid;
+  GroupFeed({required this.docid});
 
   @override
-  _ProfileState createState() => _ProfileState();
+  _GroupFeedState createState() => _GroupFeedState();
 }
 
-class _ProfileState extends State<Profile> {
+class _GroupFeedState extends State<GroupFeed> {
   @override
   Widget build(BuildContext context) {
-    late var user = FirebaseAuth.instance.currentUser?.uid;
+    late var id = widget.docid.get('id');
     final Stream<QuerySnapshot> feed = FirebaseFirestore.instance
         .collection('feed')
         .orderBy('created_at')
-        .where('creator_id', isEqualTo: user)
+        .where('group_id', isEqualTo: id)
         .snapshots();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: kPrimaryColor,
         title: Text(
-          "Profile",
-          style: TextStyle(color: Colors.black),
-        ),
-        leading: Icon(
-          Icons.account_circle,
-          color: Colors.grey,
-          size: 40.0,
+          "Group Feed",
         ),
       ),
       body: Center(
@@ -90,31 +90,18 @@ class _ProfileState extends State<Profile> {
                                                 )),
                                                 flex: 5,
                                               ),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 4.0),
-                                                  child: IconButton(
-                                                    icon: Icon(Icons.edit),
-                                                    color: Colors.grey,
-                                                    onPressed: () {
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    editPost(
-                                                                      docid: snapshot
-                                                                          .data!
-                                                                          .docs[index],
-                                                                    )),
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
-                                                // flex: 1,
-                                              ),
+                                              // Expanded(
+                                              //   child: Padding(
+                                              //     padding:
+                                              //         const EdgeInsets.only(
+                                              //             right: 4.0),
+                                              //     child: Icon(
+                                              //       Icons.share,
+                                              //       color: Colors.grey,
+                                              //     ),
+                                              //   ),
+                                              //   // flex: 1,
+                                              // ),
                                             ],
                                           ),
                                         ),
@@ -150,6 +137,18 @@ class _ProfileState extends State<Profile> {
                   return const CircularProgressIndicator();
                 }
               })),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => GroupPost(groupid: id)),
+          );
+        },
+        backgroundColor: kPrimaryColor,
+        child: Icon(
+          Icons.add,
+        ),
+      ),
     );
   }
 }

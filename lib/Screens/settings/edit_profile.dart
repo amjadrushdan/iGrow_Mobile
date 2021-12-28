@@ -1,56 +1,74 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_auth/constants.dart';
 
 import '../nav.dart';
 
-class SettingsUI extends StatelessWidget {
+class editProfile extends StatefulWidget {
+  DocumentSnapshot docid;
+  editProfile({required this.docid});
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Setting UI",
-      home: EditProfilePage(),
-    );
+  _editProfileState createState() => _editProfileState();
+}
+
+class _editProfileState extends State<editProfile> {
+  TextEditingController about = TextEditingController();
+  TextEditingController age = TextEditingController();
+  // TextEditingController dateofbirth = TextEditingController();
+  TextEditingController district = TextEditingController();
+  // TextEditingController email = TextEditingController();
+  // TextEditingController gender = TextEditingController();
+  TextEditingController maritalstatus = TextEditingController();
+  // TextEditingController name = TextEditingController();
+  TextEditingController occupation = TextEditingController();
+  TextEditingController state = TextEditingController();
+  TextEditingController username = TextEditingController();
+
+  @override
+  void initState() {
+    about = TextEditingController(text: widget.docid.get('about'));
+    age = TextEditingController(text: widget.docid.get('age').toString());
+    district = TextEditingController(text: widget.docid.get('district'));
+    maritalstatus =
+        TextEditingController(text: widget.docid.get('maritalstatus'));
+    occupation = TextEditingController(text: widget.docid.get('occupation'));
+    state = TextEditingController(text: widget.docid.get('state'));
+    username = TextEditingController(text: widget.docid.get('username'));
+    super.initState();
   }
-}
 
-class EditProfilePage extends StatefulWidget {
-  @override
-  _EditProfilePageState createState() => _EditProfilePageState();
-}
-
-class _EditProfilePageState extends State<EditProfilePage> {
-  bool showPassword = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: kPrimaryColor,
         elevation: 1,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: kPrimaryColor,
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Nav()),
-            );
-          },
+        title: Text(
+          "Edit Profile",
         ),
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(
-        //       Icons.settings,
-        //       color: Colors.green,
-        //     ),
-        //     onPressed: () {
-        //       Navigator.of(context).push(MaterialPageRoute(
-        //           builder: (BuildContext context) => SettingsPage()));
-        //     },
-        //   ),
-        // ],
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.save,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                widget.docid.reference.update({
+                  'about': about.text,
+                  'age': age.text,
+                  'district': district.text,
+                  'maritalstatus': maritalstatus.text,
+                  'occupation': occupation.text,
+                  'state': state.text,
+                  'username': username.text,
+                }).whenComplete(() {
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => Nav()));
+                });
+              }),
+        ],
       ),
       body: Container(
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
@@ -60,10 +78,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           },
           child: ListView(
             children: [
-              Text(
-                "Edit Profile",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-              ),
               SizedBox(
                 height: 15,
               ),
@@ -116,82 +130,45 @@ class _EditProfilePageState extends State<EditProfilePage> {
               SizedBox(
                 height: 35,
               ),
-              buildTextField("Full Name", "John Doe", false),
-              buildTextField("E-mail", "johndoe@gmail.com", false),
-              buildTextField("Password", "********", true),
-              buildTextField("Address", "Shah Alam, Selangor", false),
-              buildTextField("Gender", "Male", false),
-              // buildTextField("Location", "TLV, Israel", false),
-              SizedBox(
-                height: 20,
+              TextFormField(
+                controller: username,
+                decoration: InputDecoration(labelText: "Username"),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  OutlineButton(
-                    padding: EdgeInsets.symmetric(horizontal: 50),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    onPressed: () {},
-                    child: Text("CANCEL",
-                        style: TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 2.2,
-                            color: Colors.black)),
-                  ),
-                  RaisedButton(
-                    onPressed: () {},
-                    color: Colors.green,
-                    padding: EdgeInsets.symmetric(horizontal: 50),
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Text(
-                      "SAVE",
-                      style: TextStyle(
-                          fontSize: 14,
-                          letterSpacing: 2.2,
-                          color: Colors.white),
-                    ),
-                  )
-                ],
-              )
+              TextFormField(
+                controller: age,
+                decoration: InputDecoration(labelText: "Age"),
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ], // Only numbers can be entered
+              ),
+              TextFormField(
+                controller: state,
+                decoration: InputDecoration(labelText: "State"),
+              ),
+              TextFormField(
+                controller: district,
+                decoration: InputDecoration(labelText: "District"),
+              ),
+              TextFormField(
+                controller: occupation,
+                decoration: InputDecoration(labelText: "Occupation"),
+              ),
+              TextFormField(
+                controller: maritalstatus,
+                decoration: InputDecoration(labelText: "Marital Status"),
+              ),
+              TextFormField(
+                controller: about,
+                decoration: InputDecoration(labelText: "About"),
+                maxLines: null,
+              ),
+              SizedBox(
+                height: 50,
+              ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget buildTextField(
-      String labelText, String placeholder, bool isPasswordTextField) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 35.0),
-      child: TextField(
-        obscureText: isPasswordTextField ? showPassword : false,
-        decoration: InputDecoration(
-            suffixIcon: isPasswordTextField
-                ? IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.remove_red_eye,
-                      color: Colors.grey,
-                    ),
-                  )
-                : null,
-            contentPadding: EdgeInsets.only(bottom: 3),
-            labelText: labelText,
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: placeholder,
-            hintStyle: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            )),
       ),
     );
   }

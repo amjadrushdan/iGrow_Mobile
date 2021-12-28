@@ -6,25 +6,26 @@ import 'package:flutter_auth/service/authentication_service.dart';
 import 'package:intl/intl.dart';
 import '../nav.dart';
 
-class Post extends StatefulWidget {
-  Post({key}) : super(key: key);
+class GroupPost extends StatefulWidget {
+  final int groupid;
+  GroupPost({required this.groupid});
 
   @override
-  _PostState createState() => _PostState();
+  _GroupPostState createState() => _GroupPostState();
 }
 
-class _PostState extends State<Post> {
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  var title = '';
-  var message = '';
-  var group_id = 0;
-  DateTime created_at = new DateTime.now();
-  final _formKey = GlobalKey<FormState>();
-  // var intcreated = new DateTime.now().toUtc().millisecondsSinceEpoch;
-
+class _GroupPostState extends State<GroupPost> {
   @override
   Widget build(BuildContext context) {
-    CollectionReference post = FirebaseFirestore.instance.collection('feed');
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    var title = '';
+    var message = '';
+    var group_id = widget.groupid;
+    DateTime created_at = new DateTime.now();
+    final _formKey = GlobalKey<FormState>();
+    // var intcreated = new DateTime.now().toUtc().millisecondsSinceEpoch;
+    CollectionReference GroupPost =
+        FirebaseFirestore.instance.collection('feed');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -50,15 +51,14 @@ class _PostState extends State<Post> {
               size: 30.0,
             ),
             onPressed: () {
-              post
-                  .add({
-                    'title': title,
-                    'message': message,
-                    'group_id': 0,
-                    'created_at': created_at,
-                    // 'intcreated': intcreated,
-                    'creator_id': auth.currentUser!.uid.toString(),
-                  })
+              GroupPost.add({
+                'title': title,
+                'message': message,
+                'group_id': group_id,
+                'created_at': created_at,
+                // 'intcreated': intcreated,
+                'creator_id': auth.currentUser!.uid.toString(),
+              })
                   .then((value) => print('feed added')) //feed added
                   .catchError((error) => print('Failed to add feed: $error'));
               Navigator.of(context).push(
