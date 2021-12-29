@@ -24,9 +24,10 @@ class _InfoGroupState extends State<InfoGroup> {
         backgroundColor: kPrimaryColor,
       ),
       // actions
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         backgroundColor: kPrimaryColor,
-        child: Text("Join"),
+        icon: Icon(Icons.group_add_sharp),
+        label: Text("Join"),
         onPressed: () {
           widget.docid.reference.update({
             'joined_uid': FieldValue.arrayUnion([user]),

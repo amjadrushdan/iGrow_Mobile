@@ -93,6 +93,7 @@ class _GroupJoinedState extends State<GroupJoined> {
           "joined_uid",
           arrayContains: user,
         )
+        // .orderBy('id')
         .snapshots();
 
     return Scaffold(
@@ -105,33 +106,39 @@ class _GroupJoinedState extends State<GroupJoined> {
               child: const CircularProgressIndicator(),
             );
           } else {
-            // return Text("Testing ...");
             final data = snapshot.requireData;
 
-            return ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: data.size,
-              itemBuilder: (BuildContext context, int index) => Card(
-                elevation: 6,
-                margin: EdgeInsets.all(10),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.group,
-                    size: 30,
+            if (data.docs.isEmpty) {
+              return Text(
+                "You have not join any group !",
+                textScaleFactor: 1.3,
+              );
+            } else {
+              return ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: data.size,
+                itemBuilder: (BuildContext context, int index) => Card(
+                  elevation: 6,
+                  margin: EdgeInsets.all(10),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.group,
+                      size: 30,
+                    ),
+                    title: Text("${data.docs[index]['name']}"),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GroupFeed(
+                                  docid: snapshot.data!.docs[index],
+                                )),
+                      );
+                    },
                   ),
-                  title: Text("${data.docs[index]['name']}"),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => GroupFeed(
-                                docid: snapshot.data!.docs[index],
-                              )),
-                    );
-                  },
                 ),
-              ),
-            );
+              );
+            }
           }
         },
       )),

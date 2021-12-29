@@ -38,7 +38,13 @@ class _GroupFeedState extends State<GroupFeed> {
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
                   final data = snapshot.requireData;
-                  return ListView.builder(
+                  if (data.docs.isEmpty) {
+                    return Text(
+                      "No post yet!",
+                      textScaleFactor: 1.3,
+                    );
+                  } else {
+                    return ListView.builder(
                       itemCount: data.size,
                       itemBuilder: (BuildContext context, int reverseindex) {
                         int index = data.size - 1 - reverseindex;
@@ -128,7 +134,9 @@ class _GroupFeedState extends State<GroupFeed> {
                             ),
                           ],
                         );
-                      });
+                      },
+                    );
+                  }
                 } else {
                   print("${snapshot.error}");
                   // return Text("${snapshot.error}");
