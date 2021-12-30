@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/constants.dart';
 
-import '../nav.dart';
-
 class InfoGroup extends StatefulWidget {
   final DocumentSnapshot docid;
   InfoGroup({required this.docid});
@@ -31,8 +29,7 @@ class _InfoGroupState extends State<InfoGroup> {
           widget.docid.reference.update({
             'joined_uid': FieldValue.arrayUnion([user]),
           }).whenComplete(() {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => Nav()));
+            Navigator.pop(context);
           });
         },
       ),
