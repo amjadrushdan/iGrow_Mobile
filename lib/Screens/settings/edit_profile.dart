@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_auth/constants.dart';
 
-import '../nav.dart';
-
 class editProfile extends StatefulWidget {
   DocumentSnapshot docid;
   editProfile({required this.docid});
@@ -16,12 +14,8 @@ class editProfile extends StatefulWidget {
 class _editProfileState extends State<editProfile> {
   TextEditingController about = TextEditingController();
   TextEditingController age = TextEditingController();
-  // TextEditingController dateofbirth = TextEditingController();
   TextEditingController district = TextEditingController();
-  // TextEditingController email = TextEditingController();
-  // TextEditingController gender = TextEditingController();
   TextEditingController maritalstatus = TextEditingController();
-  // TextEditingController name = TextEditingController();
   TextEditingController occupation = TextEditingController();
   TextEditingController state = TextEditingController();
   TextEditingController username = TextEditingController();
@@ -64,8 +58,7 @@ class _editProfileState extends State<editProfile> {
                   'state': state.text,
                   'username': username.text,
                 }).whenComplete(() {
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (_) => Nav()));
+                  Navigator.pop(context);
                 });
               }),
         ],

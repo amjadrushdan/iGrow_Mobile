@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/nav.dart';
 import 'package:flutter_auth/constants.dart';
 
 class ListPage extends StatefulWidget {
@@ -121,8 +120,7 @@ class _DetailPageState extends State<DetailPage> {
       floatingActionButton: new FloatingActionButton(
         onPressed: () {
           widget.post.reference.delete().whenComplete(() {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => Nav()));
+            Navigator.pop(context);
           });
         },
         child: new Icon(Icons.delete),
