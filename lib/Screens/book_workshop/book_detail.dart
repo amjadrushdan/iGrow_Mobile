@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/constants.dart';
+
 
 class BookingDetail extends StatefulWidget {
   final DocumentSnapshot post;
@@ -14,6 +16,7 @@ class BookingDetail extends StatefulWidget {
 class BookingInfo extends State<BookingDetail> {
   @override
   Widget build(BuildContext context) {
+
     String? user = FirebaseAuth.instance.currentUser?.uid;
     return Scaffold(
       appBar: AppBar(
@@ -21,6 +24,7 @@ class BookingInfo extends State<BookingDetail> {
         backgroundColor: kPrimaryColor,
       ),
       body: ListView(
+
         children: [
           ListTile(
             title: Text("Speaker"),
@@ -76,3 +80,5 @@ final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
     borderRadius: BorderRadius.all(Radius.circular(30)),
   ),
 );
+
+       
