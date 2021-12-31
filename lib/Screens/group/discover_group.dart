@@ -10,12 +10,14 @@ class GroupDiscover extends StatefulWidget {
 }
 
 class _GroupDiscoverState extends State<GroupDiscover> {
-  String? user = FirebaseAuth.instance.currentUser?.uid;
-  final Stream<QuerySnapshot> group =
-      FirebaseFirestore.instance.collection('group').orderBy('id').snapshots();
-
   @override
   Widget build(BuildContext context) {
+    String? user = FirebaseAuth.instance.currentUser?.uid;
+    final Stream<QuerySnapshot> group = FirebaseFirestore.instance
+        .collection('group')
+        .orderBy('id')
+        .snapshots();
+
     return Scaffold(
       body: Center(
         child: StreamBuilder<QuerySnapshot>(
@@ -33,26 +35,35 @@ class _GroupDiscoverState extends State<GroupDiscover> {
               return ListView.builder(
                 itemCount: data.size,
                 itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    elevation: 6,
-                    margin: EdgeInsets.all(10),
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.group,
-                        size: 30,
+                  var joined = data.docs[index]['joined_uid'];
+                  bool check = joined.contains(user!);
+                  if (!check) {
+                    return Card(
+                      elevation: 6,
+                      margin: EdgeInsets.all(10),
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.group,
+                          size: 30,
+                        ),
+                        title: Text("${data.docs[index]['name']}"),
+                        trailing: Icon(Icons.add),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => InfoGroup(
+                                    docid: snapshot.data!.docs[index]),
+                              ));
+                        },
                       ),
-                      title: Text("${data.docs[index]['name']}"),
-                      trailing: Icon(Icons.add),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  InfoGroup(docid: snapshot.data!.docs[index]),
-                            ));
-                      },
-                    ),
-                  );
+                    );
+                  } else {
+                    return SizedBox.shrink();
+                  }
+
+                  // } else
+                  //   return SizedBox();
                 },
               );
             }
@@ -61,6 +72,4 @@ class _GroupDiscoverState extends State<GroupDiscover> {
       ),
     );
   }
-
-  
 }

@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/home/storage.dart';
+import 'package:flutter_auth/service/storage.dart';
 import 'package:flutter_auth/constants.dart';
 import '../nav.dart';
 
@@ -67,8 +67,7 @@ class _GroupPostState extends State<GroupPost> {
               })
                   .then((value) => print('feed added')) //feed added
                   .catchError((error) => print('Failed to add feed: $error'));
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => Nav()));
+              Navigator.pop(context);
             },
           ),
         ],

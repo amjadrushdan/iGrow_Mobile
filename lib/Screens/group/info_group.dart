@@ -30,6 +30,7 @@ class _InfoGroupState extends State<InfoGroup> {
         label: Text("Join"),
         onPressed: () {
           _alert(context);
+          // Navigator.pop(context);
         },
       ),
       body: SingleChildScrollView(
@@ -66,9 +67,11 @@ class _InfoGroupState extends State<InfoGroup> {
                   onPressed: () {
                     widget.docid.reference.update({
                       'joined_uid': FieldValue.arrayUnion([user]),
-                    }).whenComplete(() {
+                    })
+                    .whenComplete(() {
                       Navigator.pushReplacement(
                           context, MaterialPageRoute(builder: (_) => Nav()));
+                      // Navigator.pop(context);
                     });
                   },
                   child: Text('Join')),

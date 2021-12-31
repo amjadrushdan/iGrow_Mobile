@@ -26,26 +26,13 @@ class _editPostState extends State<editPost> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 1,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: kPrimaryColor,
-            size: 30.0,
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Nav()),
-            );
-          },
-        ),
+        backgroundColor: kPrimaryColor,
+        elevation: 5,
         actions: [
           IconButton(
             icon: Icon(
               Icons.post_add,
-              color: kPrimaryColor,
+              color: Colors.white,
               size: 30.0,
             ),
             onPressed: () {
@@ -53,21 +40,19 @@ class _editPostState extends State<editPost> {
                 'title': title.text,
                 'message': message.text,
               }).whenComplete(() {
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => Nav()));
+                Navigator.pop(context);
               });
             },
           ),
           IconButton(
             icon: Icon(
               Icons.delete,
-              color: kPrimaryColor,
+              color: Colors.white,
               size: 30.0,
             ),
             onPressed: () {
               widget.docid.reference.delete().whenComplete(() {
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => Nav()));
+                Navigator.pop(context);
               });
             },
           ),
@@ -96,24 +81,6 @@ class _editPostState extends State<editPost> {
               ),
             ),
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   children: [
-          //     RaisedButton(
-          //       onPressed: () {},
-          //       color: kPrimaryColor,
-          //       padding: EdgeInsets.symmetric(horizontal: 50),
-          //       elevation: 2,
-          //       shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(20)),
-          //       child: Text(
-          //         "UPLOAD IMAGE",
-          //         style: TextStyle(
-          //             fontSize: 14, letterSpacing: 2.2, color: Colors.white),
-          //       ),
-          //     )
-          //   ],
-          // ),
         ],
       ),
     );
