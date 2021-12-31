@@ -75,7 +75,7 @@ class Settings extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Booking()),
+                        MaterialPageRoute(builder: (context) => BookingPage()),
                       );
                     },
                     splashColor: kPrimaryColor,
