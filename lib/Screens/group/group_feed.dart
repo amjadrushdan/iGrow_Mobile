@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+// import 'package:flutter_auth/Screens/GroupFeed/post_page.dart';
+
 import '../../constants.dart';
 import 'group_post.dart';
 
@@ -32,6 +35,7 @@ class _GroupFeedState extends State<GroupFeed> {
               stream: feed,
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
+
                 if (snapshot.hasError) {
                   return Text("something is wrong");
                 }
@@ -80,6 +84,33 @@ class _GroupFeedState extends State<GroupFeed> {
                                         size: 60.0,
                                         color: Colors.grey,
                                       ),
+
+                if (snapshot.hasData) {
+                  final data = snapshot.requireData;
+                  if (data.docs.isEmpty) {
+                    return Text(
+                      "No post yet!",
+                      textScaleFactor: 1.3,
+                    );
+                  } else {
+                    return ListView.builder(
+                      itemCount: data.size,
+                      itemBuilder: (BuildContext context, int reverseindex) {
+                        int index = data.size - 1 - reverseindex;
+                        return Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.account_circle,
+                                      size: 60.0,
+                                      color: Colors.grey,
+
                                     ),
                                     Expanded(
                                       child: Column(
@@ -137,6 +168,7 @@ class _GroupFeedState extends State<GroupFeed> {
                                   ],
                                 ),
                               ),
+
                               Divider(
                                 thickness: 0.7,
                               ),
@@ -145,6 +177,22 @@ class _GroupFeedState extends State<GroupFeed> {
                         },
                       );
                     });
+
+                            ),
+                            Divider(
+                              thickness: 0.7,
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                } else {
+                  print("${snapshot.error}");
+                  // return Text("${snapshot.error}");
+                  return const CircularProgressIndicator();
+                }
+
               })),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

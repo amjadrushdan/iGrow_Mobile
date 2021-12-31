@@ -40,36 +40,28 @@ class _NavState extends State<Nav> {
             icon: Icon(
               Icons.home,
             ),
-            title: Text(
-              'Home',
-            ),
+            label: "Home",
             backgroundColor: kPrimaryColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.group,
             ),
-            title: Text(
-              'Group',
-            ),
+            label:"Group",
             backgroundColor: kPrimaryColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
             ),
-            title: Text(
-              'Profile',
-            ),
+            label: "Profile",
             backgroundColor: kPrimaryColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.settings,
             ),
-            title: Text(
-              'Settings',
-            ),
+            label: "Settings",
             backgroundColor: kPrimaryColor,
           ),
         ],

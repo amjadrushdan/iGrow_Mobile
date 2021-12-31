@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_auth/Screens/group/info_group.dart';
@@ -9,8 +10,9 @@ class GroupDiscover extends StatefulWidget {
 }
 
 class _GroupDiscoverState extends State<GroupDiscover> {
+  String? user = FirebaseAuth.instance.currentUser?.uid;
   final Stream<QuerySnapshot> group =
-      FirebaseFirestore.instance.collection('group').snapshots();
+      FirebaseFirestore.instance.collection('group').orderBy('id').snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,8 @@ class _GroupDiscoverState extends State<GroupDiscover> {
               );
             } else {
               // return Text("Testing ...");
-              final data = snapshot.requireData;
+              var data = snapshot.requireData;
+              data = checkIsJoin(data,user);
               return ListView.builder(
                 itemCount: data.size,
                 itemBuilder: (BuildContext context, int index) {
@@ -56,5 +59,10 @@ class _GroupDiscoverState extends State<GroupDiscover> {
         ),
       ),
     );
+  }
+
+  QuerySnapshot<Object?> checkIsJoin(QuerySnapshot<Object?> data,String? user){
+    data.docs.remove(user);
+    return data;
   }
 }
