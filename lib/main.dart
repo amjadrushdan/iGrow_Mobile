@@ -11,6 +11,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(MyApp());
 }
+ 
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -23,7 +24,11 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
+      
       home: LoginPage(),
+     
     );
   }
 }
+
+
