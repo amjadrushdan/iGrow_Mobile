@@ -29,12 +29,7 @@ class _InfoGroupState extends State<InfoGroup> {
         icon: Icon(Icons.group_add_sharp),
         label: Text("Join"),
         onPressed: () {
-          widget.docid.reference.update({
-            'joined_uid': FieldValue.arrayUnion([user]),
-          }).whenComplete(() {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => Nav()));
-          });
+          _alert(context);
         },
       ),
       body: SingleChildScrollView(
@@ -55,5 +50,35 @@ class _InfoGroupState extends State<InfoGroup> {
         ),
       ),
     );
+  }
+
+  void _alert(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            title: Text('Please Confirm'),
+            content: Text('Join group?'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    widget.docid.reference.update({
+                      'joined_uid': FieldValue.arrayUnion([user]),
+                    }).whenComplete(() {
+                      Navigator.pushReplacement(
+                          context, MaterialPageRoute(builder: (_) => Nav()));
+                    });
+                  },
+                  child: Text('Join')),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cancel'))
+            ],
+          );
+        });
   }
 }

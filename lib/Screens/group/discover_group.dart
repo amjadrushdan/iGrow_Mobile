@@ -29,7 +29,7 @@ class _GroupDiscoverState extends State<GroupDiscover> {
             } else {
               // return Text("Testing ...");
               var data = snapshot.requireData;
-              data = checkIsJoin(data,user);
+
               return ListView.builder(
                 itemCount: data.size,
                 itemBuilder: (BuildContext context, int index) {
@@ -47,8 +47,9 @@ class _GroupDiscoverState extends State<GroupDiscover> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => InfoGroup(
-                                    docid: snapshot.data!.docs[index])));
+                              builder: (context) =>
+                                  InfoGroup(docid: snapshot.data!.docs[index]),
+                            ));
                       },
                     ),
                   );
@@ -61,8 +62,5 @@ class _GroupDiscoverState extends State<GroupDiscover> {
     );
   }
 
-  QuerySnapshot<Object?> checkIsJoin(QuerySnapshot<Object?> data,String? user){
-    data.docs.remove(user);
-    return data;
-  }
+  
 }

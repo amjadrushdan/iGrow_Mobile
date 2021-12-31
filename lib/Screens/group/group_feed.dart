@@ -2,7 +2,9 @@
 //look back as referens if something happens
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/nav.dart';
 // import 'package:flutter_auth/Screens/GroupFeed/post_page.dart';
 import '../../constants.dart';
 import 'group_post.dart';
@@ -16,6 +18,8 @@ class GroupFeed extends StatefulWidget {
 }
 
 class _GroupFeedState extends State<GroupFeed> {
+  final String? user = FirebaseAuth.instance.currentUser?.uid;
+
   @override
   Widget build(BuildContext context) {
     late var id = widget.docid.get('id');
@@ -30,6 +34,17 @@ class _GroupFeedState extends State<GroupFeed> {
         title: Text(
           "Group Feed",
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                _alert(context);
+              },
+              child: Icon(Icons.exit_to_app),
+            ),
+          )
+        ],
       ),
       body: Center(
           child: StreamBuilder<QuerySnapshot>(
@@ -156,5 +171,37 @@ class _GroupFeedState extends State<GroupFeed> {
         ),
       ),
     );
+  }
+
+  void _alert(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            title: Text('Please Confirm'),
+            content: Text('Are you sure to leave group?'),
+            actions: [
+              // The "Yes" button
+              TextButton(
+                  onPressed: () {
+                    widget.docid.reference.update({
+                      'joined_uid': FieldValue.arrayRemove([user]),
+                    }).whenComplete(() => Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => Nav()),
+                        ));
+                  },
+                  child: Text('Yes')),
+              TextButton(
+                  onPressed: () {
+                    // Close the dialog
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('No'))
+            ],
+          );
+        });
   }
 }
