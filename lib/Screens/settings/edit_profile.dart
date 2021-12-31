@@ -64,8 +64,7 @@ class _editProfileState extends State<editProfile> {
                   'state': state.text,
                   'username': username.text,
                 }).whenComplete(() {
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (_) => Nav()));
+                  Navigator.pop(context);
                 });
               }),
         ],
