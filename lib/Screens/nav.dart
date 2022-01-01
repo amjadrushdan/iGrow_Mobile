@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/group/group_nav.dart';
+import 'package:flutter_auth/Screens/group/nav_group.dart';
 import 'package:flutter_auth/Screens/profile/profile_screen.dart';
 import 'package:flutter_auth/constants.dart';
 import 'Settings/settings.dart';

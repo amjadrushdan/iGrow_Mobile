@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:flutter_auth/Screens/group/group_feed.dart';
+import 'package:flutter_auth/Screens/group/feed_group.dart';
 
 class GroupJoined extends StatefulWidget {
   @override

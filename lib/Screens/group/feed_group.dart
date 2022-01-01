@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/nav.dart';
 import '../../constants.dart';
-import 'group_post.dart';
+import 'post_group.dart';
 
 class GroupFeed extends StatefulWidget {
   final DocumentSnapshot docid;
