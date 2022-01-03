@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/friend/nav_friend.dart';
 import 'package:flutter_auth/Screens/group/nav_group.dart';
 import 'package:flutter_auth/Screens/profile/profile_screen.dart';
 import 'package:flutter_auth/constants.dart';
@@ -15,6 +16,7 @@ class _NavState extends State<Nav> {
   List<Widget> _widgetOptions = <Widget>[
     Home(),
     GroupNav(),
+    FriendNav(),
     Profile(),
     Settings(),
   ];
@@ -47,7 +49,14 @@ class _NavState extends State<Nav> {
             icon: Icon(
               Icons.group,
             ),
-            label:"Group",
+            label: "Group",
+            backgroundColor: kPrimaryColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person_add,
+            ),
+            label: "Friend",
             backgroundColor: kPrimaryColor,
           ),
           BottomNavigationBarItem(
