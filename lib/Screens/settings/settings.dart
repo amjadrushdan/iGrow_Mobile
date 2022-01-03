@@ -24,6 +24,18 @@ class Settings extends StatelessWidget {
         .where('userid', isEqualTo: user)
         .snapshots();
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          "Home",
+          style: TextStyle(color: Colors.black),
+        ),
+        leading: Icon(
+          Icons.account_circle,
+          color: Colors.grey,
+          size: 40.0,
+        ),
+      ),
       body: StreamBuilder(
         stream: member,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -35,125 +47,143 @@ class Settings extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+
           return Container(
-            padding: EdgeInsets.all(30.0),
-            child: GridView.count(
-              crossAxisCount: 2,
-              children: <Widget>[
-                Card(
-                  color: Colors.grey[300],
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                editProfile(docid: snapshot.data!.docs[0])),
-                      );
-                    },
-                    splashColor: kPrimaryColor,
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Icon(
-                            Icons.edit,
-                            size: 70.0,
-                          ),
-                          Text(
-                            "Edit Profile",
-                            style: new TextStyle(fontSize: 17.0),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+            child: Column(
+              children: [
+                // Profile container ========================================================
+                Container(
+                  child: Text('ahoi'),
                 ),
-                Card(
-                  color: Colors.grey[300],
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => BookingPage()),
-                      );
-                    },
-                    splashColor: kPrimaryColor,
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Icon(
-                            Icons.assignment,
-                            size: 70.0,
+                // Settings container ========================================================
+                Container(
+                  padding: EdgeInsets.all(30.0),
+                  child: GridView.count(
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    children: <Widget>[
+                      Card(
+                        color: Colors.grey[300],
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => editProfile(
+                                      docid: snapshot.data!.docs[0])),
+                            );
+                          },
+                          splashColor: kPrimaryColor,
+                          child: Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.edit,
+                                  size: 70.0,
+                                ),
+                                Text(
+                                  "Edit Profile",
+                                  style: new TextStyle(fontSize: 17.0),
+                                )
+                              ],
+                            ),
                           ),
-                          Text(
-                            "Book Workshop",
-                            style: new TextStyle(fontSize: 17.0),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                Card(
-                  color: Colors.grey[300],
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ListPage()),
-                      );
-                    },
-                    splashColor: kPrimaryColor,
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Icon(
-                            Icons.calendar_today,
-                            size: 70.0,
+                      Card(
+                        color: Colors.grey[300],
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BookingPage()),
+                            );
+                          },
+                          splashColor: kPrimaryColor,
+                          child: Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.assignment,
+                                  size: 70.0,
+                                ),
+                                Text(
+                                  "Book Workshop",
+                                  style: new TextStyle(fontSize: 17.0),
+                                ),
+                              ],
+                            ),
                           ),
-                          Text(
-                            "Schedule",
-                            style: new TextStyle(fontSize: 17.0),
-                          )
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                Card(
-                  color: Colors.grey[300],
-                  child: InkWell(
-                    onTap: () {
-                      _signOut();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
-                    },
-                    splashColor: kPrimaryColor,
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Icon(
-                            Icons.logout,
-                            size: 70.0,
+                      Card(
+                        color: Colors.grey[300],
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ListPage()),
+                            );
+                          },
+                          splashColor: kPrimaryColor,
+                          child: Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.calendar_today,
+                                  size: 70.0,
+                                ),
+                                Text(
+                                  "Schedule",
+                                  style: new TextStyle(fontSize: 17.0),
+                                )
+                              ],
+                            ),
                           ),
-                          Text(
-                            "Logout",
-                            style: new TextStyle(fontSize: 17.0),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                      Card(
+                        color: Colors.grey[300],
+                        child: InkWell(
+                          onTap: () {
+                            _signOut();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
+                            );
+                          },
+                          splashColor: kPrimaryColor,
+                          child: Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.logout,
+                                  size: 70.0,
+                                ),
+                                Text(
+                                  "Logout",
+                                  style: new TextStyle(fontSize: 17.0),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           );
+
+          // return
         },
       ),
     );
