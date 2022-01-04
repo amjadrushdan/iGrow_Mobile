@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/home/post_page.dart';
 import '../../constants.dart';
@@ -19,6 +20,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    String? user = FirebaseAuth.instance.currentUser?.uid;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -71,82 +73,94 @@ class _HomeState extends State<Home> {
                               child: CircularProgressIndicator(),
                             );
                           }
-                          return Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.account_circle,
-                                        size: 60.0,
-                                        color: Colors.grey,
+
+                          var added =
+                              snapshot2.data!.docChanges[0].doc['friend_uid'];
+                          bool check = added.contains(user);
+                          if (check || data.docs[index]['creator_id'] == user) {
+                            return Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.account_circle,
+                                          size: 60.0,
+                                          color: Colors.grey,
+                                        ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 5.0),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: <Widget>[
-                                                Expanded(
-                                                  child: Container(
-                                                      child: RichText(
-                                                    text: TextSpan(children: [
-                                                      TextSpan(
-                                                        text:
-                                                            "${snapshot2.data!.docChanges[0].doc['username']}",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 18.0,
-                                                            color:
-                                                                Colors.black),
-                                                      ),
-                                                    ]),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  )),
-                                                  flex: 5,
-                                                ),
-                                              ],
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 5.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    child: Container(
+                                                        child: RichText(
+                                                      text: TextSpan(children: [
+                                                        TextSpan(
+                                                          text:
+                                                              "${snapshot2.data!.docChanges[0].doc['username']}",
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize: 18.0,
+                                                              color:
+                                                                  Colors.black),
+                                                        ),
+                                                      ]),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    )),
+                                                    flex: 5,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 10.0),
-                                            child: Text(
-                                              'Title: ' +
-                                                  "${data.docs[index]['title']}" +
-                                                  // '\n\n' +
-                                                  '\nㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ' +
-                                                  "${data.docs[index]['message']}",
-                                              style: TextStyle(fontSize: 16.0),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10.0),
+                                              child: Text(
+                                                'Title: ' +
+                                                    "${data.docs[index]['title']}" +
+                                                    // '\n\n' +
+                                                    '\nㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ' +
+                                                    "${data.docs[index]['message']}",
+                                                style:
+                                                    TextStyle(fontSize: 16.0),
+                                              ),
                                             ),
-                                          ),
-                                          Image.network(
-                                              "${data.docs[index]['imageUrl']}"),
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                            Image.network(
+                                                "${data.docs[index]['imageUrl']}"),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Divider(
-                                thickness: 0.7,
-                              ),
-                            ],
-                          );
+                                Divider(
+                                  thickness: 0.7,
+                                ),
+                              ],
+                            );
+                          } else {
+                            return SizedBox.shrink();
+                          }
                         },
                       );
                     });
