@@ -27,11 +27,11 @@ class Settings extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          "Home",
+          "Settings",
           style: TextStyle(color: Colors.black),
         ),
         leading: Icon(
-          Icons.account_circle,
+          Icons.settings,
           color: Colors.grey,
           size: 40.0,
         ),
@@ -53,11 +53,125 @@ class Settings extends StatelessWidget {
               children: [
                 // Profile container ========================================================
                 Container(
-                  child: Text('ahoi'),
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            //color: Colors.amber,
+                            image: DecorationImage(
+                                image: NetworkImage("add you image URL here "),
+                                fit: BoxFit.cover)),
+                        child: Container(
+                          //color: kPrimaryColor,
+                          width: double.infinity,
+                          height: 120,
+                          child: Container(
+                              alignment: Alignment(0.0, 0.0),
+                              child: CircleAvatar(
+                                radius: 55,
+                                backgroundColor: kPrimaryColor,
+                                child: CircleAvatar(
+                                  radius: 51,
+                                  backgroundImage: NetworkImage(
+                                      'https://i.ibb.co/0ftQ8Zx/icon3.jpg'),
+                                ),
+                              )),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 1,
+                      ),
+                      Text(
+                        snapshot.data!.docs[0]['username'],
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            letterSpacing: 2.0,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        snapshot.data!.docs[0]['email'],
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                            letterSpacing: 2.0,
+                            fontWeight: FontWeight.w300),
+                      ),
+                      Card(
+                        margin: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 8.0),
+                        elevation: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Age",
+                                      style: TextStyle(
+                                          color: kPrimaryColor,
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    SizedBox(
+                                      height: 7,
+                                    ),
+                                    Text(
+                                      snapshot.data!.docs[0]['age'],
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13.0,
+                                        //fontWeight: FontWeight.w300
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Friends",
+                                      style: TextStyle(
+                                          color: kPrimaryColor,
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    SizedBox(
+                                      height: 7,
+                                    ),
+                                    Text(
+                                      snapshot
+                                          .data!.docs[0]['friend_uid'].length
+                                          .toString(),
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13.0,
+                                        //fontWeight: FontWeight.w300
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
                 ),
                 // Settings container ========================================================
                 Container(
-                  padding: EdgeInsets.all(30.0),
+                  padding: EdgeInsets.fromLTRB(70, 2, 70, 8),
                   child: GridView.count(
                     shrinkWrap: true,
                     crossAxisCount: 2,
