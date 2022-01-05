@@ -101,28 +101,28 @@ class _editProfileState extends State<editProfile> {
                           image: DecorationImage(
                               fit: BoxFit.cover,
                               image: NetworkImage(
-                                "https://images2.minutemediacdn.com/image/upload/c_crop,h_726,w_1292,x_199,y_0/f_auto,q_auto,w_1100/v1578352479/shape/mentalfloss/62455-shout-factory1.jpg",
+                                "https://i.ibb.co/0ftQ8Zx/icon3.jpg",
                               ))),
                     ),
-                    Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              width: 4,
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                            ),
-                            color: Colors.green,
-                          ),
-                          child: Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                          ),
-                        )),
+                    // Positioned(
+                    //     bottom: 0,
+                    //     right: 0,
+                    //     child: Container(
+                    //       height: 40,
+                    //       width: 40,
+                    //       decoration: BoxDecoration(
+                    //         shape: BoxShape.circle,
+                    //         border: Border.all(
+                    //           width: 4,
+                    //           color: Theme.of(context).scaffoldBackgroundColor,
+                    //         ),
+                    //         color: Colors.green,
+                    //       ),
+                    //       child: Icon(
+                    //         Icons.edit,
+                    //         color: Colors.white,
+                    //       ),
+                    //     )),
                   ],
                 ),
               ),

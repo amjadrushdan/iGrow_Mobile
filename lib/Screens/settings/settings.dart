@@ -56,15 +56,16 @@ class Settings extends StatelessWidget {
                   child: Column(
                     children: [
                       Container(
-                        decoration: BoxDecoration(
-                            //color: Colors.amber,
-                            image: DecorationImage(
-                                image: NetworkImage("add you image URL here "),
-                                fit: BoxFit.cover)),
+                        // decoration: BoxDecoration(
+                        //     //color: Colors.amber,
+                        //     image: DecorationImage(
+                        //         image: NetworkImage("add you image URL here "),
+                        //         fit: BoxFit.cover)),
                         child: Container(
                           //color: kPrimaryColor,
+                          padding: EdgeInsets.only(top: 20),
                           width: double.infinity,
-                          height: 120,
+                          height: 130,
                           child: Container(
                               alignment: Alignment(0.0, 0.0),
                               child: CircleAvatar(
@@ -171,7 +172,7 @@ class Settings extends StatelessWidget {
                 ),
                 // Settings container ========================================================
                 Container(
-                  padding: EdgeInsets.fromLTRB(70, 2, 70, 8),
+                  padding: EdgeInsets.fromLTRB(50, 2, 50, 8),
                   child: GridView.count(
                     shrinkWrap: true,
                     crossAxisCount: 2,
