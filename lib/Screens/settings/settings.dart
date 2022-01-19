@@ -56,13 +56,7 @@ class Settings extends StatelessWidget {
                   child: Column(
                     children: [
                       Container(
-                        // decoration: BoxDecoration(
-                        //     //color: Colors.amber,
-                        //     image: DecorationImage(
-                        //         image: NetworkImage("add you image URL here "),
-                        //         fit: BoxFit.cover)),
                         child: Container(
-                          //color: kPrimaryColor,
                           padding: EdgeInsets.only(top: 20),
                           width: double.infinity,
                           height: 130,
@@ -74,7 +68,7 @@ class Settings extends StatelessWidget {
                                 child: CircleAvatar(
                                   radius: 51,
                                   backgroundImage: NetworkImage(
-                                      'https://i.ibb.co/0ftQ8Zx/icon3.jpg'),
+                                      snapshot.data!.docs[0]['imageUrl']),
                                 ),
                               )),
                         ),
@@ -254,7 +248,7 @@ class Settings extends StatelessWidget {
                                   size: 70.0,
                                 ),
                                 Text(
-                                  "Schedule",
+                                  "Booked",
                                   style: new TextStyle(fontSize: 17.0),
                                 )
                               ],

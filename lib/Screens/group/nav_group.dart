@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/group/create_group.dart';
 import 'package:flutter_auth/Screens/group/joined_group.dart';
 import 'package:flutter_auth/constants.dart';
+import 'package:flutter_auth/service/appBar.dart';
 import 'discover_group.dart';
 import 'joined_group.dart';
 
@@ -12,9 +13,7 @@ class GroupNav extends StatefulWidget {
 
 class _GroupNavState extends State<GroupNav> {
   @override
-
   Widget build(BuildContext context) => DefaultTabController(
-    
         length: 2,
         child: Scaffold(
           appBar: AppBar(
@@ -22,10 +21,13 @@ class _GroupNavState extends State<GroupNav> {
               "Group",
               style: TextStyle(color: Colors.black),
             ),
-            leading: Icon(
-              Icons.account_circle,
-              color: Colors.grey,
-              size: 40.0,
+            leading: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 10, 0, 0),
+              child: CircleAvatar(
+                // radius: 30,
+                backgroundImage: NetworkImage(
+                    "https://firebasestorage.googleapis.com/v0/b/igrow-kms-e3bec.appspot.com/o/photos%2Ficons8-group-64.png?alt=media&token=6218980a-031d-4595-b96b-899b787826ef"),
+              ),
             ),
             backgroundColor: Colors.white,
             bottom: TabBar(
@@ -40,6 +42,8 @@ class _GroupNavState extends State<GroupNav> {
             elevation: 4,
             titleSpacing: 20,
           ),
+          // appBar: BaseAppBar(appBar: AppBar(), title: "Group"),
+
           floatingActionButton: FloatingActionButton.extended(
             backgroundColor: kPrimaryColor,
             icon: Icon(Icons.groups),

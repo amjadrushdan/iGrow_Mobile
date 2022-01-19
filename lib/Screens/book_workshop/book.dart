@@ -18,7 +18,6 @@ class Booking extends State<BookingPage> {
   //   QuerySnapshot qn = await firestore.collection('workshop').get();
   //   return qn.docs;
   // }
-  
 
   navigateToDetail(DocumentSnapshot post) {
     Navigator.push(context,
@@ -27,10 +26,9 @@ class Booking extends State<BookingPage> {
 
   @override
   Widget build(BuildContext context) {
-        String? user = FirebaseAuth.instance.currentUser?.uid;
-    Stream<QuerySnapshot> workshop = FirebaseFirestore.instance
-        .collection('workshop')
-        .snapshots();
+    String? user = FirebaseAuth.instance.currentUser?.uid;
+    Stream<QuerySnapshot> workshop =
+        FirebaseFirestore.instance.collection('workshop').snapshots();
 
     return Scaffold(
       appBar: AppBar(
@@ -42,8 +40,8 @@ class Booking extends State<BookingPage> {
       body: Container(
         child: StreamBuilder(
           stream: workshop,
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: CircularProgressIndicator(),
@@ -60,7 +58,11 @@ class Booking extends State<BookingPage> {
                       elevation: 6,
                       margin: EdgeInsets.all(10),
                       child: ListTile(
-                        leading: Icon(Icons.assignment,size: 35,),
+                        leading: CircleAvatar(
+                          radius: 22,
+                          backgroundImage:
+                              NetworkImage(data.docs[index]['imageUrl']),
+                        ),
                         title: Text(data.docs[index]['programmename']),
                         subtitle: Text(data.docs[index]['date']),
                         onTap: () => navigateToDetail(data.docs[index]),
@@ -76,6 +78,5 @@ class Booking extends State<BookingPage> {
         ),
       ),
     );
-
   }
 }

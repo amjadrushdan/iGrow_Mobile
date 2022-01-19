@@ -79,9 +79,10 @@ class _PendingFriendState extends State<PendingFriend> {
                           elevation: 6,
                           margin: EdgeInsets.all(10),
                           child: ListTile(
-                            leading: Icon(
-                              Icons.group,
-                              size: 30,
+                            leading: CircleAvatar(
+                              radius: 22,
+                              backgroundImage: NetworkImage(
+                                  "${data.docs[index]['imageUrl']}"),
                             ),
                             title: Text("${data.docs[index]['username']}"),
                             onTap: () {

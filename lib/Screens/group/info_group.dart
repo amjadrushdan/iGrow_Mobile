@@ -38,6 +38,16 @@ class _InfoGroupState extends State<InfoGroup> {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             children: <Widget>[
+              // FadeInImage.assetNetwork(
+              //   placeholder: 'assets/loading.gif',
+              //   image: widget.docid.get('imageUrl'),
+              // ),
+              widget.docid.get("imageUrl") == ""
+                  ? SizedBox.shrink()
+                  : Image.network(
+                      widget.docid.get('imageUrl'),
+                    ),
+
               ListTile(
                 title: Text("Group Name"),
                 subtitle: Text(widget.docid.get('name')),
@@ -67,8 +77,7 @@ class _InfoGroupState extends State<InfoGroup> {
                   onPressed: () {
                     widget.docid.reference.update({
                       'joined_uid': FieldValue.arrayUnion([user]),
-                    })
-                    .whenComplete(() {
+                    }).whenComplete(() {
                       Navigator.pushReplacement(
                           context, MaterialPageRoute(builder: (_) => Nav()));
                       // Navigator.pop(context);

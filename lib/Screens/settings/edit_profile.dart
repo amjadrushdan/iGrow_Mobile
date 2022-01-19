@@ -101,7 +101,7 @@ class _editProfileState extends State<editProfile> {
                           image: DecorationImage(
                               fit: BoxFit.cover,
                               image: NetworkImage(
-                                "https://i.ibb.co/0ftQ8Zx/icon3.jpg",
+                                widget.docid.get('imageUrl'),
                               ))),
                     ),
                     // Positioned(
