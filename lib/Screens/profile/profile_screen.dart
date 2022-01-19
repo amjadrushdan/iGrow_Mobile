@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/profile/edit_post.dart';
+import 'package:flutter_auth/service/appBar.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);
@@ -20,18 +21,7 @@ class _ProfileState extends State<Profile> {
         .where('creator_id', isEqualTo: user)
         .snapshots();
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          "Profile",
-          style: TextStyle(color: Colors.black),
-        ),
-        leading: Icon(
-          Icons.account_circle,
-          color: Colors.grey,
-          size: 40.0,
-        ),
-      ),
+      appBar: BaseAppBar(appBar: AppBar(), title: "Profile"),
       body: Center(
           child: StreamBuilder<QuerySnapshot>(
               stream: feed,
@@ -74,11 +64,13 @@ class _ProfileState extends State<Profile> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(
-                                            Icons.account_circle,
-                                            size: 60.0,
-                                            color: Colors.grey,
+                                          padding: const EdgeInsets.fromLTRB(
+                                              6.0, 10.0, 10.0, 10.0),
+                                          child: CircleAvatar(
+                                            radius: 27,
+                                            backgroundImage: NetworkImage(
+                                                snapshot2.data!.docChanges[0]
+                                                    .doc['imageUrl']),
                                           ),
                                         ),
                                         Expanded(
@@ -160,8 +152,10 @@ class _ProfileState extends State<Profile> {
                                                       TextStyle(fontSize: 16.0),
                                                 ),
                                               ),
-                                              Image.network(
-                                                  "${data.docs[index]['imageUrl']}"),
+                                              data.docs[index]['imageUrl'] == ""
+                                                  ? SizedBox.shrink()
+                                                  : Image.network(
+                                                      "${data.docs[index]['imageUrl']}"),
                                             ],
                                           ),
                                         )

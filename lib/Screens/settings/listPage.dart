@@ -69,13 +69,15 @@ class _ListPageState extends State<ListPage> {
                           elevation: 6,
                           margin: EdgeInsets.all(10),
                           child: ListTile(
-                            leading: Icon(
-                              Icons.assignment,
-                              size: 30,
+                            leading: CircleAvatar(
+                              radius: 22,
+                              backgroundImage:
+                                  NetworkImage(data.docs[index]['imageUrl']),
                             ),
                             //title: Text(snapshot.data[index]['programmename']),
                             //subtitle: Text(snapshot.data[index]['date']),
                             title: Text("${data.docs[index]['programmename']}"),
+                            subtitle: Text("${data.docs[index]['date']}"),
                             //onTap: () => navigateToDetail(snapshot.data[index]),
                             onTap: () {
                               Navigator.push(
@@ -118,6 +120,7 @@ class _DetailPageState extends State<DetailPage> {
       ),
       body: ListView(
         children: [
+          Image.network(widget.post["imageUrl"]),
           ListTile(
             title: Text("Description"),
             subtitle: Text(widget.post["description"]),

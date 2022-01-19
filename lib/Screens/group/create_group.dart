@@ -155,7 +155,7 @@ class _CreateGroupState extends State<CreateGroup> {
                 createGroup.add({
                   'about': about,
                   'id': lastID! + 1,
-                  'joined_uid': FieldValue.arrayUnion([]),
+                  'joined_uid': FieldValue.arrayUnion([user]),
                   'name': name,
                   'creator_uid': user,
                 });

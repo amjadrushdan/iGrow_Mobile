@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/home/post_page.dart';
+import 'package:flutter_auth/service/appBar.dart';
 import '../../constants.dart';
 
 class Home extends StatefulWidget {
@@ -22,18 +23,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     String? user = FirebaseAuth.instance.currentUser?.uid;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          "Home",
-          style: TextStyle(color: Colors.black),
-        ),
-        leading: Icon(
-          Icons.account_circle,
-          color: Colors.grey,
-          size: 40.0,
-        ),
-      ),
+      appBar: BaseAppBar(appBar: AppBar(), title: "Home"),
       body: Center(
           child: StreamBuilder<QuerySnapshot>(
               stream: feed,
@@ -87,11 +77,13 @@ class _HomeState extends State<Home> {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Icon(
-                                          Icons.account_circle,
-                                          size: 60.0,
-                                          color: Colors.grey,
+                                        padding: const EdgeInsets.fromLTRB(
+                                            6.0, 10.0, 10.0, 10.0),
+                                        child: CircleAvatar(
+                                          radius: 27,
+                                          backgroundImage: NetworkImage(
+                                              snapshot2.data!.docChanges[0]
+                                                  .doc['imageUrl']),
                                         ),
                                       ),
                                       Expanded(

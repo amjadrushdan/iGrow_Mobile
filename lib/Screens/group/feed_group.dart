@@ -17,8 +17,8 @@ class _GroupFeedState extends State<GroupFeed> {
   String? user = FirebaseAuth.instance.currentUser?.uid;
   @override
   Widget build(BuildContext context) {
-    
     late var id = widget.docid.get('id');
+
     final Stream<QuerySnapshot> feed = FirebaseFirestore.instance
         .collection('feed')
         .orderBy('created_at')
@@ -31,13 +31,40 @@ class _GroupFeedState extends State<GroupFeed> {
           "Group Feed",
         ),
         actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () {
-                _alert(context);
-              },
-              child: Icon(Icons.exit_to_app),
+          // Padding(
+          //   padding: EdgeInsets.only(right: 20.0),
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       _alert(context);
+          //     },
+          //     child: Icon(Icons.exit_to_app),
+          //   ),
+          // )
+          PopupMenuButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            elevation: 10,
+            itemBuilder: (context) => [
+        
+              PopupMenuItem(
+                //exit group
+                value: 2,
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.exit_to_app,
+                      color: kPrimaryColor,
+                    ),
+                    SizedBox(width: 10),
+                    Text('Leave group'),
+                  ],
+                ),
+              )
+            ],
+            onSelected: (item) => selectedItem(
+              context,
+              item,
+        
             ),
           )
         ],
@@ -144,10 +171,13 @@ class _GroupFeedState extends State<GroupFeed> {
                                               '\nㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ' +
                                               "${data.docs[index]['message']}",
                                           style: TextStyle(fontSize: 16.0),
+                                          textAlign: TextAlign.left,
                                         ),
                                       ),
-                                      Image.network(
-                                          "${data.docs[index]['imageUrl']}"),
+                                      data.docs[index]['imageUrl'] == ""
+                                          ? SizedBox.shrink()
+                                          : Image.network(
+                                              "${data.docs[index]['imageUrl']}"),
                                     ],
                                   ),
                                 )
@@ -212,5 +242,13 @@ class _GroupFeedState extends State<GroupFeed> {
             ],
           );
         });
+  }
+
+  void selectedItem(BuildContext context, Object? item) {
+    switch (item) {
+      case 2:
+        _alert(context);
+        break;
+    }
   }
 }

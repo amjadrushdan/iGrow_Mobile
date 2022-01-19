@@ -19,10 +19,13 @@ class _FriendNavState extends State<FriendNav> {
               "Friend",
               style: TextStyle(color: Colors.black),
             ),
-            leading: Icon(
-              Icons.account_circle,
-              color: Colors.grey,
-              size: 40.0,
+            leading: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 10, 0, 0),
+              child: CircleAvatar(
+                // radius: 30,
+                backgroundImage: NetworkImage(
+                    "https://firebasestorage.googleapis.com/v0/b/igrow-kms-e3bec.appspot.com/o/photos%2Ficons8-friend-64.png?alt=media&token=a6e8cdc6-2325-4e65-aa31-672620fd2af0"),
+              ),
             ),
             actions: [
               Padding(
