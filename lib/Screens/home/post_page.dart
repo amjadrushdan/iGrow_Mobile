@@ -111,41 +111,24 @@ class _PostState extends State<Post> {
               ),
             ),
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   children: [
-          //     RaisedButton(
-          //       onPressed: () {},
-          //       color: kPrimaryColor,
-          //       padding: EdgeInsets.symmetric(horizontal: 50),
-          //       elevation: 2,
-          //       shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(20)),
-          //       child: Text(
-          //         "UPLOAD IMAGE",
-          //         style: TextStyle(
-          //             fontSize: 14, letterSpacing: 2.2, color: Colors.white),
-          //       ),
-          //     )
-          //   ],
-          // ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    height: 140,
-                    width: 180,
-                    color: Colors.black12,
-                    child: image == null
-                        ? Icon(
-                            Icons.image,
-                            size: 50,
-                          )
-                        : Image.file(
-                            image!,
-                            fit: BoxFit.fill,
-                          )),
+                  height: 140,
+                  width: 180,
+                  color: Colors.black12,
+                  child: image == null
+                      ? Icon(
+                          Icons.image,
+                          size: 50,
+                        )
+                      : Image.file(
+                          image!,
+                          fit: BoxFit.fill,
+                        ),
+                ),
                 ElevatedButton(
                   child: Text('Pick Image'),
                   style: ElevatedButton.styleFrom(primary: kPrimaryColor),
@@ -159,17 +142,18 @@ class _PostState extends State<Post> {
                   },
                 ),
                 TextButton(
-                    onPressed: () {
-                      if (image != null)
-                        _storage.uploadFile(image!, context);
-                      else
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("No Image was selected")));
-                    },
-                    child: Text(
-                      'Upload Image',
-                      style: TextStyle(color: kPrimaryColor),
-                    ))
+                  onPressed: () {
+                    if (image != null)
+                      _storage.uploadFile(image!, context);
+                    else
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("No Image was selected")));
+                  },
+                  child: Text(
+                    'Upload Image',
+                    style: TextStyle(color: kPrimaryColor),
+                  ),
+                )
               ],
             ),
           ),

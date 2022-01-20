@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/group/memberlist_group.dart';
+import 'package:flutter_auth/Screens/home/home_screen.dart';
 import 'package:flutter_auth/Screens/nav.dart';
 import '../../constants.dart';
 import 'post_group.dart';
@@ -28,7 +30,7 @@ class _GroupFeedState extends State<GroupFeed> {
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         title: Text(
-          "Group Feed",
+          widget.docid.get("name"),
         ),
         actions: [
           // Padding(
@@ -47,6 +49,20 @@ class _GroupFeedState extends State<GroupFeed> {
             itemBuilder: (context) => [
               PopupMenuItem(
                 //exit group
+                value: 1,
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.people,
+                      color: kPrimaryColor,
+                    ),
+                    SizedBox(width: 10),
+                    Text('Group Member'),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                //exit group
                 value: 2,
                 child: Row(
                   children: <Widget>[
@@ -58,11 +74,12 @@ class _GroupFeedState extends State<GroupFeed> {
                     Text('Leave group'),
                   ],
                 ),
-              )
+              ),
             ],
             onSelected: (item) => selectedItem(
               context,
               item,
+              widget.docid,
             ),
           )
         ],
@@ -243,8 +260,18 @@ class _GroupFeedState extends State<GroupFeed> {
         });
   }
 
-  void selectedItem(BuildContext context, Object? item) {
+  void selectedItem(
+      BuildContext context, Object? item, DocumentSnapshot docid) {
     switch (item) {
+      case 1:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => GroupMember(
+                    docid: docid,
+                  )),
+        );
+        break;
       case 2:
         _alert(context);
         break;

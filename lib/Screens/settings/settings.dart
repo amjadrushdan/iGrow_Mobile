@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/friend/list_friend.dart';
+import 'package:flutter_auth/Screens/friend/pending_friend.dart';
 import 'package:flutter_auth/Screens/login/login_screen.dart';
 import 'package:flutter_auth/Screens/settings/listFriend.dart';
 import 'package:flutter_auth/Screens/settings/listPage.dart';
@@ -32,10 +33,13 @@ class Settings extends StatelessWidget {
           "Settings",
           style: TextStyle(color: Colors.black),
         ),
-        leading: Icon(
-          Icons.settings,
-          color: Colors.grey,
-          size: 40.0,
+        leading: Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: CircleAvatar(
+            // radius: 30,
+            backgroundImage: NetworkImage(
+                "https://firebasestorage.googleapis.com/v0/b/igrow-kms-e3bec.appspot.com/o/photos%2Ficons8-settings-50.png?alt=media&token=7222f929-e8ba-4697-b117-94c43c4132e4"),
+          ),
         ),
       ),
       body: StreamBuilder(
@@ -107,27 +111,39 @@ class Settings extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Expanded(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "Age",
-                                      style: TextStyle(
-                                          color: kPrimaryColor,
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    SizedBox(
-                                      height: 7,
-                                    ),
-                                    Text(
-                                      snapshot.data!.docs[0]['age'],
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 13.0,
-                                        //fontWeight: FontWeight.w300
+                                child: InkWell(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "Friend Request",
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w600),
                                       ),
-                                    )
-                                  ],
+                                      SizedBox(
+                                        height: 7,
+                                      ),
+                                      Text(
+                                        snapshot
+                                            .data!.docs[0]['pending_uid'].length
+                                            .toString(),
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 13.0,
+                                          //fontWeight: FontWeight.w300
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => PendingFriend(),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                               Expanded(

@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/friend/add_info_friend.dart';
 import 'dart:async';
-import 'package:flutter_auth/Screens/group/info_group.dart';
 
 class AddFriend extends StatefulWidget {
   @override

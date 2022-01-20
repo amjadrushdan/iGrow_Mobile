@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/constants.dart';
 
-import '../nav.dart';
-
 class InfoFriend extends StatefulWidget {
   final DocumentSnapshot docid;
   InfoFriend({required this.docid});
