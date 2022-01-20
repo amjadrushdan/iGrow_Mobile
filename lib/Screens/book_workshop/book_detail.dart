@@ -45,23 +45,20 @@ class BookingInfo extends State<BookingDetail> {
             title: Text("Description"),
             subtitle: Text(widget.post["description"]),
           ),
-          const SizedBox(
-            height: 280,
-          ),
-          Container(
-              height: 45,
-              padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
-              child: ElevatedButton(
-                  style: raisedButtonStyle,
-                  child: Text('Apply'),
-                  onPressed: () {
-                    widget.post.reference.update({
-                      'joined_uid': FieldValue.arrayUnion([user]),
-                    }).whenComplete(() {
-                      Navigator.pop(context);
-                    });
-                  })),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: kPrimaryColor,
+        icon: Icon(Icons.addchart_sharp),
+        label: Text("Apply"),
+        onPressed: () {
+          //create group
+          widget.post.reference.update({
+            'joined_uid': FieldValue.arrayUnion([user]),
+          }).whenComplete(() {
+            Navigator.pop(context);
+          });
+        },
       ),
     );
   }

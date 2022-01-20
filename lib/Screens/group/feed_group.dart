@@ -45,7 +45,6 @@ class _GroupFeedState extends State<GroupFeed> {
                 borderRadius: BorderRadius.all(Radius.circular(10.0))),
             elevation: 10,
             itemBuilder: (context) => [
-        
               PopupMenuItem(
                 //exit group
                 value: 2,
@@ -64,7 +63,6 @@ class _GroupFeedState extends State<GroupFeed> {
             onSelected: (item) => selectedItem(
               context,
               item,
-        
             ),
           )
         ],
@@ -122,11 +120,12 @@ class _GroupFeedState extends State<GroupFeed> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.account_circle,
-                                    size: 60.0,
-                                    color: Colors.grey,
+                                  padding: const EdgeInsets.fromLTRB(
+                                      6.0, 10.0, 10.0, 10.0),
+                                  child: CircleAvatar(
+                                    radius: 27,
+                                    backgroundImage: NetworkImage(snapshot2
+                                        .data!.docChanges[0].doc['imageUrl']),
                                   ),
                                 ),
                                 Expanded(

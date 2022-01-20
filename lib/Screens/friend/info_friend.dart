@@ -38,6 +38,20 @@ class _InfoFriendState extends State<InfoFriend> {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Container(
+                    alignment: Alignment(0.0, 0.0),
+                    child: CircleAvatar(
+                      radius: 67,
+                      backgroundColor: kPrimaryColor,
+                      child: CircleAvatar(
+                        radius: 63,
+                        backgroundImage:
+                            NetworkImage(widget.docid.get('imageUrl')),
+                      ),
+                    )),
+              ),
               ListTile(
                 title: Text("Name"),
                 subtitle: Text(widget.docid.get('name')),

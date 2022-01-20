@@ -25,16 +25,16 @@ class _CreateGroupState extends State<CreateGroup> {
     final CollectionReference createGroup =
         FirebaseFirestore.instance.collection('group');
     String? user = FirebaseAuth.instance.currentUser?.uid;
-    int? lastID ;
+    int? lastID;
     FirebaseFirestore.instance
         .collection('group')
         .orderBy('id', descending: true)
         .limit(1)
         .get()
         .then((value) {
-          print(value.docs[0]['id']);
-          lastID = value.docs[0]['id'];
-        });
+      print(value.docs[0]['id']);
+      lastID = value.docs[0]['id'];
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -55,6 +55,12 @@ class _CreateGroupState extends State<CreateGroup> {
                 ),
                 onChanged: (value) {
                   name = value;
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
                 },
                 decoration: InputDecoration(
                   focusColor: Colors.white,
@@ -107,6 +113,12 @@ class _CreateGroupState extends State<CreateGroup> {
                 ),
                 onChanged: (value) {
                   about = value;
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
                 },
                 decoration: InputDecoration(
                   focusColor: Colors.white,

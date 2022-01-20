@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/service/storage.dart';
 import 'package:flutter_auth/constants.dart';
+import 'package:flutter_auth/service/validator.dart';
 import '../nav.dart';
 
 class Post extends StatefulWidget {
@@ -84,7 +85,7 @@ class _PostState extends State<Post> {
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Title name is required';
+                    return 'Please enter some text';
                   }
                   return null;
                 },
@@ -103,7 +104,7 @@ class _PostState extends State<Post> {
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Message description is required';
+                    return 'Please enter some text';
                   }
                   return null;
                 },

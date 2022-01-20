@@ -41,4 +41,16 @@ class Validator {
 
     return null;
   }
+
+  static String? validatePost({required String? post}) {
+    if (post == null) {
+      return null;
+    }
+
+    if (post.isEmpty) {
+      return 'Post can\'t be empty';
+    }
+
+    return null;
+  }
 }
