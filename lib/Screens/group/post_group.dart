@@ -42,10 +42,7 @@ class _GroupPostState extends State<GroupPost> {
             size: 30.0,
           ),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Nav()),
-            );
+            Navigator.pop(context);
           },
         ),
         actions: [

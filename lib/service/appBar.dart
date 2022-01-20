@@ -17,7 +17,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         .collection('member')
         .where('userid', isEqualTo: user)
         .snapshots();
-        
+
     return StreamBuilder(
       stream: member,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

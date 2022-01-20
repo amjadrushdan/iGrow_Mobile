@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/group/create_group.dart';
 import 'package:flutter_auth/Screens/group/joined_group.dart';
 import 'package:flutter_auth/constants.dart';
-import 'package:flutter_auth/service/appBar.dart';
 import 'discover_group.dart';
 import 'joined_group.dart';
 

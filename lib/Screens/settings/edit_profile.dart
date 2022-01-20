@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_auth/constants.dart';
+import 'package:flutter_auth/service/storage.dart';
 
 import '../nav.dart';
 
@@ -25,6 +28,9 @@ class _editProfileState extends State<editProfile> {
   TextEditingController occupation = TextEditingController();
   TextEditingController state = TextEditingController();
   TextEditingController username = TextEditingController();
+  File? image;
+  late Future imageUrl;
+  Storage _storage = new Storage();
 
   @override
   void initState() {
@@ -63,6 +69,7 @@ class _editProfileState extends State<editProfile> {
                   'occupation': occupation.text,
                   'state': state.text,
                   'username': username.text,
+                  'imageUrl': _storage.getUrl(),
                 }).whenComplete(() {
                   Navigator.pop(context);
                 });
@@ -87,42 +94,64 @@ class _editProfileState extends State<editProfile> {
                       width: 130,
                       height: 130,
                       decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 4,
-                              color: Theme.of(context).scaffoldBackgroundColor),
-                          boxShadow: [
-                            BoxShadow(
-                                spreadRadius: 2,
-                                blurRadius: 10,
-                                color: Colors.black.withOpacity(0.1),
-                                offset: Offset(0, 10))
-                          ],
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
+                        border: Border.all(
+                            width: 4,
+                            color: Theme.of(context).scaffoldBackgroundColor),
+                        boxShadow: [
+                          BoxShadow(
+                              spreadRadius: 2,
+                              blurRadius: 10,
+                              color: Colors.black.withOpacity(0.1),
+                              offset: Offset(0, 10))
+                        ],
+                        shape: BoxShape.circle,
+                      ),
+                      child: image == null
+                          ? ClipOval(
+                              child: Image.network(
                                 widget.docid.get('imageUrl'),
-                              ))),
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : ClipOval(
+                              child: Image.file(
+                                image!,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                     ),
-                    // Positioned(
-                    //     bottom: 0,
-                    //     right: 0,
-                    //     child: Container(
-                    //       height: 40,
-                    //       width: 40,
-                    //       decoration: BoxDecoration(
-                    //         shape: BoxShape.circle,
-                    //         border: Border.all(
-                    //           width: 4,
-                    //           color: Theme.of(context).scaffoldBackgroundColor,
-                    //         ),
-                    //         color: Colors.green,
-                    //       ),
-                    //       child: Icon(
-                    //         Icons.edit,
-                    //         color: Colors.white,
-                    //       ),
-                    //     )),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: InkWell(
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              width: 4,
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                            ),
+                            color: Colors.green,
+                          ),
+                          child: Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                          ),
+                        ),
+                        onTap: () {
+                          _storage.getImage(context).then((file) {
+                            setState(() {
+                              image = File(file.path);
+                              print(file.path);
+                              if (image != null)
+                                _storage.uploadFile(image!, context);
+                            });
+                          });
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
