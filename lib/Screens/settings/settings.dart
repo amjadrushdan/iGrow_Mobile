@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/friend/list_friend.dart';
 import 'package:flutter_auth/Screens/login/login_screen.dart';
+import 'package:flutter_auth/Screens/settings/listFriend.dart';
 import 'package:flutter_auth/Screens/settings/listPage.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/Screens/book_workshop/book.dart';
@@ -129,29 +131,39 @@ class Settings extends StatelessWidget {
                                 ),
                               ),
                               Expanded(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "Friends",
-                                      style: TextStyle(
-                                          color: kPrimaryColor,
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    SizedBox(
-                                      height: 7,
-                                    ),
-                                    Text(
-                                      snapshot
-                                          .data!.docs[0]['friend_uid'].length
-                                          .toString(),
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 13.0,
-                                        //fontWeight: FontWeight.w300
+                                child: InkWell(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "Friends",
+                                        style: TextStyle(
+                                            color: kPrimaryColor,
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w600),
                                       ),
-                                    )
-                                  ],
+                                      SizedBox(
+                                        height: 7,
+                                      ),
+                                      Text(
+                                        snapshot
+                                            .data!.docs[0]['friend_uid'].length
+                                            .toString(),
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 13.0,
+                                          //fontWeight: FontWeight.w300
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AllFriends(),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                             ],

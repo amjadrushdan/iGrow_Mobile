@@ -137,8 +137,10 @@ class _HomeState extends State<Home> {
                                                     TextStyle(fontSize: 16.0),
                                               ),
                                             ),
-                                            Image.network(
-                                                "${data.docs[index]['imageUrl']}"),
+                                            data.docs[index]['imageUrl'] == ""
+                                                ? SizedBox.shrink()
+                                                : Image.network(
+                                                    "${data.docs[index]['imageUrl']}"),
                                           ],
                                         ),
                                       )

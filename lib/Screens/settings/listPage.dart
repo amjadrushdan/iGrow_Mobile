@@ -159,12 +159,14 @@ class _DetailPageState extends State<DetailPage> {
           ),
         ],
       ),
-      floatingActionButton: new FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: kPrimaryColor,
+        icon: Icon(Icons.delete),
+        label: Text("Delete"),
         onPressed: () {
+          //create group
           deleteJoin(context);
         },
-        child: new Icon(Icons.delete),
-        backgroundColor: kPrimaryColor,
       ),
     );
   }
