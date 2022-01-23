@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/service/filterscreen.dart';
 import 'book_detail.dart';
 import 'package:flutter_auth/constants.dart';
 
@@ -12,18 +13,12 @@ class BookingPage extends StatefulWidget {
 }
 
 class Booking extends State<BookingPage> {
-  // Future getPosts() async {
-  //   var firestore = FirebaseFirestore.instance;
-
-  //   QuerySnapshot qn = await firestore.collection('workshop').get();
-  //   return qn.docs;
-  // }
-
   navigateToDetail(DocumentSnapshot post) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => BookingDetail(post: post)));
   }
 
+  String filterText = "";
   @override
   Widget build(BuildContext context) {
     String? user = FirebaseAuth.instance.currentUser?.uid;
@@ -36,6 +31,33 @@ class Booking extends State<BookingPage> {
         title: Text(
           "Booking Workshop",
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () async {
+                var result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return FilterScreen();
+                    },
+                  ),
+                );
+
+                setState(
+                  () {
+                    filterText = "$result";
+                  },
+                );
+                print(result);
+              },
+              child: Icon(
+                Icons.filter_alt_sharp,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Container(
         child: StreamBuilder(
@@ -51,9 +73,15 @@ class Booking extends State<BookingPage> {
               return ListView.builder(
                 itemCount: data.size,
                 itemBuilder: (BuildContext context, index) {
+                  // print(filterText);
                   var joined = data.docs[index]['joined_uid'];
-                  bool check = joined.contains(user!);
-                  if (!check) {
+                  bool check1 = joined.contains(user!);
+                  var state = filterText;
+                  bool check2 = state.contains(data.docs[index]['state']);
+                  bool check3 = filterText.isEmpty;
+                  bool check4 = state.contains(data.docs[index]['soil']);
+
+                  if (!check1 && ((check2 || check4) || check3)) {
                     return Card(
                       elevation: 6,
                       margin: EdgeInsets.all(10),
