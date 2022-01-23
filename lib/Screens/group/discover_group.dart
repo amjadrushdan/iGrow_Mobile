@@ -39,7 +39,7 @@ class _GroupDiscoverState extends State<GroupDiscover> {
               return ListView.builder(
                 itemCount: data.size,
                 itemBuilder: (BuildContext context, int index) {
-                  print(widget.FilterText);
+                  // print(widget.FilterText);
                   var joined = data.docs[index]['joined_uid'];
                   bool check1 = joined.contains(user!);
                   var state = widget.FilterText;
@@ -53,6 +53,7 @@ class _GroupDiscoverState extends State<GroupDiscover> {
                       margin: EdgeInsets.all(10),
                       child: ListTile(
                         leading: CircleAvatar(
+                          backgroundColor: Colors.grey,
                           radius: 22,
                           backgroundImage:
                               NetworkImage(data.docs[index]['imageUrl']),
