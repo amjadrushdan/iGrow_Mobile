@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/nav.dart';
 import 'package:flutter_auth/constants.dart';
+import 'package:flutter_auth/service/filterscreen.dart';
 
 class ListPage extends StatefulWidget {
   @override
@@ -24,6 +25,7 @@ class _ListPageState extends State<ListPage> {
         MaterialPageRoute(builder: (context) => DetailPage(post: post)));
   }
 
+  String filterText = "";
   @override
   Widget build(BuildContext context) {
     String? user = FirebaseAuth.instance.currentUser?.uid;
@@ -35,65 +37,110 @@ class _ListPageState extends State<ListPage> {
         )
         .snapshots();
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: kPrimaryColor,
-          title: Text(
-            "Booked Workshop",
-          ),
+      appBar: AppBar(
+        backgroundColor: kPrimaryColor,
+        title: Text(
+          "Booked Workshop",
         ),
-        body: Card(
-          child: StreamBuilder<QuerySnapshot>(
-            //future: getPosts(),
-            stream: workshop,
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              //var indexLength = snapshot.data.length;
-              if (!snapshot.hasData) {
-                return Center(
-                  child: Text("Loading..."),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () async {
+                var result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return FilterScreen();
+                    },
+                  ),
                 );
-              } else {
-                final data = snapshot.requireData;
 
-                if (data.docs.isEmpty) {
-                  return Text(
+                setState(
+                  () {
+                    filterText = "$result";
+                  },
+                );
+                print(result);
+              },
+              child: Icon(
+                Icons.filter_alt_sharp,
+              ),
+            ),
+          ),
+        ],
+      ),
+      body: Card(
+        child: StreamBuilder<QuerySnapshot>(
+          //future: getPosts(),
+          stream: workshop,
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            //var indexLength = snapshot.data.length;
+            if (!snapshot.hasData) {
+              return Center(
+                child: Text("Loading..."),
+              );
+            } else {
+              final data = snapshot.requireData;
+
+              if (data.docs.isEmpty) {
+                return Center(
+                  child: Text(
                     "You have not book any workshop !",
                     textScaleFactor: 1.3,
-                  );
-                } else {
-                  //var data = snapshot.requireData;
-                  //data = checkIsJoin(data, user);
-                  return ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: data.size,
-                      itemBuilder: (BuildContext context, int index) => Card(
-                          elevation: 6,
-                          margin: EdgeInsets.all(10),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              radius: 22,
-                              backgroundImage:
-                                  NetworkImage(data.docs[index]['imageUrl']),
-                            ),
-                            //title: Text(snapshot.data[index]['programmename']),
-                            //subtitle: Text(snapshot.data[index]['date']),
-                            title: Text("${data.docs[index]['programmename']}"),
-                            subtitle: Text("${data.docs[index]['date']}"),
-                            //onTap: () => navigateToDetail(snapshot.data[index]),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DetailPage(
-                                          post: snapshot.data!.docs[index],
-                                        )),
-                              );
-                            },
-                          )));
-                }
+                  ),
+                );
+              } else {
+                //var data = snapshot.requireData;
+                //data = checkIsJoin(data, user);
+                return ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: data.size,
+                  itemBuilder: (BuildContext context, int index) {
+                    // var joined = data.docs[index]['joined_uid'];
+                    // bool check1 = joined.contains(user!);
+                    var state = filterText;
+                    bool check2 = state.contains(data.docs[index]['state']);
+                    bool check3 = filterText.isEmpty;
+                    bool check4 = state.contains(data.docs[index]['soil']);
+
+                    if ((check2 || check4) || check3) {
+                      return Card(
+                        elevation: 6,
+                        margin: EdgeInsets.all(10),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            radius: 22,
+                            backgroundImage:
+                                NetworkImage(data.docs[index]['imageUrl']),
+                          ),
+                          //title: Text(snapshot.data[index]['programmename']),
+                          //subtitle: Text(snapshot.data[index]['date']),
+                          title: Text("${data.docs[index]['programmename']}"),
+                          subtitle: Text("${data.docs[index]['date']}"),
+                          //onTap: () => navigateToDetail(snapshot.data[index]),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DetailPage(
+                                        post: snapshot.data!.docs[index],
+                                      )),
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  },
+                );
               }
-            },
-          ),
-        ));
+            }
+          },
+        ),
+      ),
+    );
   }
 
   QuerySnapshot<Object?> checkIsJoin(

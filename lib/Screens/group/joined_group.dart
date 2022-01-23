@@ -5,6 +5,9 @@ import 'dart:async';
 import 'package:flutter_auth/Screens/group/feed_group.dart';
 
 class GroupJoined extends StatefulWidget {
+  String FilterText;
+
+  GroupJoined({required this.FilterText});
   @override
   _GroupJoinedState createState() => _GroupJoinedState();
 }
@@ -24,51 +27,67 @@ class _GroupJoinedState extends State<GroupJoined> {
 
     return Scaffold(
       body: Center(
-          child: StreamBuilder<QuerySnapshot>(
-        stream: group,
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return Center(
-              child: const CircularProgressIndicator(),
-            );
-          } else {
-            final data = snapshot.requireData;
-
-            if (data.docs.isEmpty) {
-              return Text(
-                "You have not join any group !",
-                textScaleFactor: 1.3,
+        child: StreamBuilder<QuerySnapshot>(
+          stream: group,
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: const CircularProgressIndicator(),
               );
             } else {
-              return ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: data.size,
-                itemBuilder: (BuildContext context, int index) => Card(
-                  elevation: 6,
-                  margin: EdgeInsets.all(10),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 22,
-                      backgroundImage:
-                          NetworkImage(data.docs[index]['imageUrl']),
-                    ),
-                    title: Text("${data.docs[index]['name']}"),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GroupFeed(
-                                  docid: snapshot.data!.docs[index],
-                                )),
+              final data = snapshot.requireData;
+
+              if (data.docs.isEmpty) {
+                return Text(
+                  "You have not join any group !",
+                  textScaleFactor: 1.3,
+                );
+              } else {
+                return ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: data.size,
+                  itemBuilder: (BuildContext context, int index) {
+                    print(widget.FilterText);
+                    // var joined = data.docs[index]['joined_uid'];
+                    // bool check1 = joined.contains(user!);
+                    var state = widget.FilterText;
+                    bool check2 = state.contains(data.docs[index]['state']);
+                    bool check3 = (widget.FilterText).isEmpty;
+                    bool check4 = state.contains(data.docs[index]['soil']);
+
+                    if ((check2 || check4) || check3) {
+                      return Card(
+                        elevation: 6,
+                        margin: EdgeInsets.all(10),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            radius: 22,
+                            backgroundImage:
+                                NetworkImage(data.docs[index]['imageUrl']),
+                          ),
+                          title: Text("${data.docs[index]['name']}"),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => GroupFeed(
+                                        docid: snapshot.data!.docs[index],
+                                      )),
+                            );
+                          },
+                        ),
                       );
-                    },
-                  ),
-                ),
-              );
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  },
+                );
+              }
             }
-          }
-        },
-      )),
+          },
+        ),
+      ),
     );
   }
 }

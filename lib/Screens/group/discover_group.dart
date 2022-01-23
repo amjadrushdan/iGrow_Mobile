@@ -5,11 +5,15 @@ import 'dart:async';
 import 'package:flutter_auth/Screens/group/info_group.dart';
 
 class GroupDiscover extends StatefulWidget {
+  String FilterText;
+
+  GroupDiscover({required this.FilterText});
   @override
   _GroupDiscoverState createState() => _GroupDiscoverState();
 }
 
 class _GroupDiscoverState extends State<GroupDiscover> {
+  // String filterText = widget.FilterText;
   @override
   Widget build(BuildContext context) {
     String? user = FirebaseAuth.instance.currentUser?.uid;
@@ -35,9 +39,15 @@ class _GroupDiscoverState extends State<GroupDiscover> {
               return ListView.builder(
                 itemCount: data.size,
                 itemBuilder: (BuildContext context, int index) {
+                  print(widget.FilterText);
                   var joined = data.docs[index]['joined_uid'];
-                  bool check = joined.contains(user!);
-                  if (!check) {
+                  bool check1 = joined.contains(user!);
+                  var state = widget.FilterText;
+                  bool check2 = state.contains(data.docs[index]['state']);
+                  bool check3 = (widget.FilterText).isEmpty;
+                  bool check4 = state.contains(data.docs[index]['soil']);
+
+                  if (!check1 && ((check2 || check4) || check3)) {
                     return Card(
                       elevation: 6,
                       margin: EdgeInsets.all(10),

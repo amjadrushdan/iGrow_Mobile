@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/group/create_group.dart';
 import 'package:flutter_auth/Screens/group/joined_group.dart';
 import 'package:flutter_auth/constants.dart';
+import 'package:flutter_auth/service/filterscreen.dart';
 import 'discover_group.dart';
 import 'joined_group.dart';
 
@@ -11,6 +12,7 @@ class GroupNav extends StatefulWidget {
 }
 
 class _GroupNavState extends State<GroupNav> {
+  String filterText = "";
   @override
   Widget build(BuildContext context) => DefaultTabController(
         length: 2,
@@ -40,6 +42,34 @@ class _GroupNavState extends State<GroupNav> {
             ),
             elevation: 4,
             titleSpacing: 20,
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: GestureDetector(
+                  onTap: () async {
+                    var result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return FilterScreen();
+                        },
+                      ),
+                    );
+
+                    setState(
+                      () {
+                        filterText = "$result";
+                      },
+                    );
+                    print(result);
+                  },
+                  child: Icon(
+                    Icons.filter_alt_sharp,
+                    color: kPrimaryColor,
+                  ),
+                ),
+              ),
+            ],
           ),
           // appBar: BaseAppBar(appBar: AppBar(), title: "Group"),
 
@@ -57,8 +87,8 @@ class _GroupNavState extends State<GroupNav> {
           ),
           body: TabBarView(
             children: [
-              GroupDiscover(),
-              GroupJoined(),
+              GroupDiscover(FilterText: filterText),
+              GroupJoined(FilterText: filterText),
             ],
           ),
         ),
