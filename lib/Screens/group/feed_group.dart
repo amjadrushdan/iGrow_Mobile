@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/friend/info_friend.dart';
 import 'package:flutter_auth/Screens/group/memberlist_group.dart';
 import 'package:flutter_auth/Screens/home/home_screen.dart';
 import 'package:flutter_auth/Screens/nav.dart';
@@ -139,10 +140,22 @@ class _GroupFeedState extends State<GroupFeed> {
                                 Padding(
                                   padding: const EdgeInsets.fromLTRB(
                                       6.0, 10.0, 10.0, 10.0),
-                                  child: CircleAvatar(
-                                    radius: 27,
-                                    backgroundImage: NetworkImage(snapshot2
-                                        .data!.docChanges[0].doc['imageUrl']),
+                                  child: InkWell(
+                                    child: CircleAvatar(
+                                      radius: 27,
+                                      backgroundImage: NetworkImage(snapshot2
+                                          .data!.docChanges[0].doc['imageUrl']),
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      InfoFriend(
+                                                          docid: snapshot2.data!
+                                                              .docs[0]),
+                                                ));
+                                    },
                                   ),
                                 ),
                                 Expanded(

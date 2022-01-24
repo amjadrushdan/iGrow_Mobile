@@ -48,7 +48,7 @@ class _GroupJoinedState extends State<GroupJoined> {
                   physics: BouncingScrollPhysics(),
                   itemCount: data.size,
                   itemBuilder: (BuildContext context, int index) {
-                    print(widget.FilterText);
+                   
                     // var joined = data.docs[index]['joined_uid'];
                     // bool check1 = joined.contains(user!);
                     var state = widget.FilterText;

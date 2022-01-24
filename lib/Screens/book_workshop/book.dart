@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/service/filterscreen.dart';
+import 'package:intl/intl.dart';
 import 'book_detail.dart';
 import 'package:flutter_auth/constants.dart';
 
@@ -81,7 +82,12 @@ class Booking extends State<BookingPage> {
                   bool check3 = filterText.isEmpty;
                   bool check4 = state.contains(data.docs[index]['soil']);
 
-                  if (!check1 && ((check2 || check4) || check3)) {
+                  // DateTime now = new DateTime.now();
+                  // DateTime date = new DateTime(now.year, now.month, now.day);
+                  // String currentDate = date.day.toString()+" "+DateFormat.LLLL().format(date)+" "+date.year.toString();
+                  // bool check5 =  (data.docs[index]["date"] < currentDate);
+                  
+                  if (!check1 && ((check2 || check4) || check3 )) {
                     return Card(
                       elevation: 6,
                       margin: EdgeInsets.all(10),
