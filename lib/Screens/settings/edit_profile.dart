@@ -29,7 +29,7 @@ class _editProfileState extends State<editProfile> {
   TextEditingController state = TextEditingController();
   TextEditingController username = TextEditingController();
   File? image;
-  late Future imageUrl;
+  late String imageUrl;
   Storage _storage = new Storage();
 
   @override
@@ -61,6 +61,10 @@ class _editProfileState extends State<editProfile> {
                 color: Colors.white,
               ),
               onPressed: () {
+                if (_storage.getUrl() == "") {
+                  imageUrl = widget.docid.get('imageUrl');
+                } else
+                  imageUrl = _storage.getUrl();
                 widget.docid.reference.update({
                   'about': about.text,
                   'age': age.text,
@@ -69,7 +73,7 @@ class _editProfileState extends State<editProfile> {
                   'occupation': occupation.text,
                   'state': state.text,
                   'username': username.text,
-                  'imageUrl': _storage.getUrl(),
+                  'imageUrl': imageUrl,
                 }).whenComplete(() {
                   Navigator.pop(context);
                 });

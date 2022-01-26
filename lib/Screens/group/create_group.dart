@@ -46,6 +46,23 @@ class _CreateGroupState extends State<CreateGroup> {
     "Loamy",
   ];
 
+  String? _selectedPlants = "Others";
+  List<String> plants = [
+    "Rose",
+    "Lily",
+    "Hibiscus",
+    "Violet",
+    "Ixora",
+    "Anthurium",
+    "Daisy",
+    "Lotus",
+    "Canna",
+    "Orchid",
+    "Jasmine",
+    "Tulip",
+    "Others",
+  ];
+
   @override
   Widget build(BuildContext context) {
     // final Stream<QuerySnapshot> create = FirebaseFirestore.instance
@@ -193,6 +210,7 @@ class _CreateGroupState extends State<CreateGroup> {
               ),
               Center(
                 child: Wrap(
+                  alignment: WrapAlignment.center,
                   spacing: 6,
                   children: [
                     Container(
@@ -205,7 +223,8 @@ class _CreateGroupState extends State<CreateGroup> {
                             side: BorderSide(
                                 style: BorderStyle.solid,
                                 color: kPrimaryLightColor),
-                            borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0)),
                           )),
                       child: DropdownButton(
                         hint: Text("Choose state"),
@@ -224,7 +243,7 @@ class _CreateGroupState extends State<CreateGroup> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(bottom: 15),
+                      margin: const EdgeInsets.only(bottom: 5),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 0.0),
                       decoration: ShapeDecoration(
@@ -233,7 +252,8 @@ class _CreateGroupState extends State<CreateGroup> {
                             side: BorderSide(
                                 style: BorderStyle.solid,
                                 color: kPrimaryLightColor),
-                            borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0)),
                           )),
                       child: DropdownButton(
                         hint: Text("Choose soil"),
@@ -251,10 +271,39 @@ class _CreateGroupState extends State<CreateGroup> {
                         },
                       ),
                     ),
-                   
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 0.0),
+                      decoration: ShapeDecoration(
+                          color: kPrimaryColor,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                style: BorderStyle.solid,
+                                color: kPrimaryLightColor),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0)),
+                          )),
+                      child: DropdownButton(
+                        hint: Text("Choose plants"),
+                        value: _selectedPlants,
+                        items: plants.map((value) {
+                          return DropdownMenuItem(
+                            child: new Text(value),
+                            value: value,
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedPlants = newValue;
+                          });
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
+
               //image=======================================================
               Center(
                 child: Column(
@@ -328,8 +377,8 @@ class _CreateGroupState extends State<CreateGroup> {
                 'joined_uid': FieldValue.arrayUnion([user]),
                 'name': name,
                 'creator_uid': user,
-                'soil':_selectedSoil,
-                'state':_selectedState,
+                'soil': _selectedSoil,
+                'state': _selectedState,
               });
               Navigator.pop(context);
             },

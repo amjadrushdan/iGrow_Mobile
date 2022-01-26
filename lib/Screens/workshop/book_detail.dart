@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/constants.dart';
+import 'package:intl/intl.dart';
 
 class BookingDetail extends StatefulWidget {
   final DocumentSnapshot post;
@@ -16,6 +17,7 @@ class BookingInfo extends State<BookingDetail> {
   @override
   Widget build(BuildContext context) {
     String? user = FirebaseAuth.instance.currentUser?.uid;
+    Timestamp timestamp = (widget.post['date']);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.post["programmename"]),
@@ -34,7 +36,7 @@ class BookingInfo extends State<BookingDetail> {
           ),
           ListTile(
             title: Text("Date"),
-            subtitle: Text(widget.post["date"]),
+            subtitle: Text(DateFormat.yMMMMd().format(timestamp.toDate())),
           ),
           ListTile(
             title: Text("Time"),

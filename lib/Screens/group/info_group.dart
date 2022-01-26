@@ -60,29 +60,50 @@ class _InfoGroupState extends State<InfoGroup> {
               ),
               padding: EdgeInsets.all(10),
               margin: EdgeInsets.fromLTRB(20, 30, 20, 30),
-              child: Row(
+              child: Column(
                 children: [
                   Text(
                     "Tags : ",
-                    textScaleFactor: 1.5,
+                    textScaleFactor: 1.2,
+                    textAlign: TextAlign.left,
                   ),
-                  FilterChip(
-                    selectedColor: kPrimaryColor,
-                    selected: true,
-                    label: Text(widget.docid.get('state')),
-                    labelStyle: TextStyle(color: Colors.white),
-                    backgroundColor: kPrimaryColor,
-                    checkmarkColor: Colors.white,
-                    onSelected: (bool value) {},
-                  ),
-                  FilterChip(
-                    selectedColor: kPrimaryColor,
-                    selected: true,
-                    label: Text(widget.docid.get('soil')),
-                    labelStyle: TextStyle(color: Colors.white),
-                    backgroundColor: kPrimaryColor,
-                    checkmarkColor: Colors.white,
-                    onSelected: (bool value) {},
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      FilterChip(
+                        selectedColor: kPrimaryColor,
+                        selected: true,
+                        label: Text(widget.docid.get('state')),
+                        labelStyle: TextStyle(color: Colors.white),
+                        backgroundColor: kPrimaryColor,
+                        checkmarkColor: Colors.white,
+                        onSelected: (bool value) {},
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      FilterChip(
+                        selectedColor: kPrimaryColor,
+                        selected: true,
+                        label: Text(widget.docid.get('soil')),
+                        labelStyle: TextStyle(color: Colors.white),
+                        backgroundColor: kPrimaryColor,
+                        checkmarkColor: Colors.white,
+                        onSelected: (bool value) {},
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      FilterChip(
+                        selectedColor: kPrimaryColor,
+                        selected: true,
+                        label: Text(widget.docid.get('plants')),
+                        labelStyle: TextStyle(color: Colors.white),
+                        backgroundColor: kPrimaryColor,
+                        checkmarkColor: Colors.white,
+                        onSelected: (bool value) {},
+                      ),
+                    ],
                   ),
                 ],
               ),

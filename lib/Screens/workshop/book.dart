@@ -74,20 +74,18 @@ class Booking extends State<BookingPage> {
               return ListView.builder(
                 itemCount: data.size,
                 itemBuilder: (BuildContext context, index) {
-                  // print(filterText);
                   var joined = data.docs[index]['joined_uid'];
-                  bool check1 = joined.contains(user!);
                   var state = filterText;
+                  Timestamp timestamp = (data.docs[index]['date']);
+                  DateTime now = new DateTime.now();
+                  DateTime date = new DateTime(now.year, now.month, now.day);
+                  bool check1 = joined.contains(user!);
                   bool check2 = state.contains(data.docs[index]['state']);
                   bool check3 = filterText.isEmpty;
                   bool check4 = state.contains(data.docs[index]['soil']);
+                  bool check5 = timestamp.toDate().isAfter(date);
 
-                  // DateTime now = new DateTime.now();
-                  // DateTime date = new DateTime(now.year, now.month, now.day);
-                  // String currentDate = date.day.toString()+" "+DateFormat.LLLL().format(date)+" "+date.year.toString();
-                  // bool check5 =  (data.docs[index]["date"] < currentDate);
-                  
-                  if (!check1 && ((check2 || check4) || check3 )) {
+                  if (!check1 && ((check2 || check4) || check3) && check5) {
                     return Card(
                       elevation: 6,
                       margin: EdgeInsets.all(10),
@@ -98,7 +96,8 @@ class Booking extends State<BookingPage> {
                               NetworkImage(data.docs[index]['imageUrl']),
                         ),
                         title: Text(data.docs[index]['programmename']),
-                        subtitle: Text(data.docs[index]['date']),
+                        subtitle: Text(
+                            DateFormat.yMMMMd().format(timestamp.toDate())),
                         onTap: () => navigateToDetail(data.docs[index]),
                       ),
                     );

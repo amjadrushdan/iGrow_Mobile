@@ -4,28 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/nav.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/service/filterscreen.dart';
+import 'package:intl/intl.dart';
 
 class ListPage extends StatefulWidget {
+  String FilterText;
+
+  ListPage({required this.FilterText});
   @override
   _ListPageState createState() => _ListPageState();
 }
 
 class _ListPageState extends State<ListPage> {
-  //late Future _data;
-  //Future getPosts() async {
-  //var firestore = FirebaseFirestore.instance;
-
-  //QuerySnapshot qn = await firestore.collection('workshop').get();
-  //return qn.docs;
-
-  //}
-
   navigateToDetail(DocumentSnapshot post) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => DetailPage(post: post)));
   }
 
-  String filterText = "";
   @override
   Widget build(BuildContext context) {
     String? user = FirebaseAuth.instance.currentUser?.uid;
@@ -37,39 +31,39 @@ class _ListPageState extends State<ListPage> {
         )
         .snapshots();
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: kPrimaryColor,
-        title: Text(
-          "Booked Workshop",
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              onTap: () async {
-                var result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return FilterScreen();
-                    },
-                  ),
-                );
+      // appBar: AppBar(
+      //   backgroundColor: kPrimaryColor,
+      //   title: Text(
+      //     "Booked Workshop",
+      //   ),
+      //   actions: [
+      //     Padding(
+      //       padding: EdgeInsets.only(right: 20.0),
+      //       child: GestureDetector(
+      //         onTap: () async {
+      //           var result = await Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //               builder: (context) {
+      //                 return FilterScreen();
+      //               },
+      //             ),
+      //           );
 
-                setState(
-                  () {
-                    filterText = "$result";
-                  },
-                );
-                print(result);
-              },
-              child: Icon(
-                Icons.filter_alt_sharp,
-              ),
-            ),
-          ),
-        ],
-      ),
+      //           setState(
+      //             () {
+      //               filterText = "$result";
+      //             },
+      //           );
+      //           print(result);
+      //         },
+      //         child: Icon(
+      //           Icons.filter_alt_sharp,
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      // ),
       body: Card(
         child: StreamBuilder<QuerySnapshot>(
           //future: getPosts(),
@@ -99,12 +93,15 @@ class _ListPageState extends State<ListPage> {
                   itemBuilder: (BuildContext context, int index) {
                     // var joined = data.docs[index]['joined_uid'];
                     // bool check1 = joined.contains(user!);
-                    var state = filterText;
+                    var state = widget.FilterText;
+                    Timestamp timestamp = (data.docs[index]['date']);
+                    DateTime now = new DateTime.now();
+                    DateTime date = new DateTime(now.year, now.month, now.day);
                     bool check2 = state.contains(data.docs[index]['state']);
-                    bool check3 = filterText.isEmpty;
+                    bool check3 = widget.FilterText.isEmpty;
                     bool check4 = state.contains(data.docs[index]['soil']);
-
-                    if ((check2 || check4) || check3) {
+                    bool check5 = timestamp.toDate().isAfter(date);
+                    if ((check2 || check4) || check3 && check5) {
                       return Card(
                         elevation: 6,
                         margin: EdgeInsets.all(10),
@@ -117,7 +114,8 @@ class _ListPageState extends State<ListPage> {
                           //title: Text(snapshot.data[index]['programmename']),
                           //subtitle: Text(snapshot.data[index]['date']),
                           title: Text("${data.docs[index]['programmename']}"),
-                          subtitle: Text("${data.docs[index]['date']}"),
+                          subtitle: Text(
+                              DateFormat.yMMMMd().format(timestamp.toDate())),
                           //onTap: () => navigateToDetail(snapshot.data[index]),
                           onTap: () {
                             Navigator.push(
@@ -160,51 +158,123 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
+    Timestamp timestamp = (widget.post['date']);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.post["programmename"]),
         backgroundColor: kPrimaryColor,
       ),
-      body: ListView(
-        children: [
-          Image.network(widget.post["imageUrl"]),
-          ListTile(
-            title: Text("Description"),
-            subtitle: Text(widget.post["description"]),
-          ),
-          new Divider(
-            color: Colors.grey,
-          ),
-          ListTile(
-            title: Text("Date"),
-            subtitle: Text(widget.post["date"]),
-          ),
-          new Divider(
-            color: Colors.grey,
-          ),
-          ListTile(
-            title: Text("Time"),
-            subtitle:
-                Text(widget.post["starttime"] + " - " + widget.post["endtime"]),
-          ),
-          new Divider(
-            color: Colors.grey,
-          ),
-          ListTile(
-            title: Text("Person In Charge"),
-            subtitle: Text(widget.post["PIC"]),
-          ),
-          Divider(
-            color: Colors.grey,
-          ),
-          ListTile(
-            title: Text("Speaker"),
-            subtitle: Text(widget.post["speaker"]),
-          ),
-          Divider(
-            color: Colors.grey,
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            widget.post["imageUrl"] == ""
+                ? Icon(Icons.image)
+                : Image.network(
+                    widget.post["imageUrl"],
+                    width: double.infinity,
+                    fit: BoxFit.fitWidth,
+                  ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 4,
+                    blurRadius: 4,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              padding: EdgeInsets.all(10),
+              margin: EdgeInsets.fromLTRB(20, 30, 20, 30),
+              child: Column(
+                children: [
+                  Text(
+                    "Tags : ",
+                    textScaleFactor: 1.2,
+                    textAlign: TextAlign.left,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      FilterChip(
+                        selectedColor: kPrimaryColor,
+                        selected: true,
+                        label: Text(widget.post['state']),
+                        labelStyle: TextStyle(color: Colors.white),
+                        backgroundColor: kPrimaryColor,
+                        checkmarkColor: Colors.white,
+                        onSelected: (bool value) {},
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      FilterChip(
+                        selectedColor: kPrimaryColor,
+                        selected: true,
+                        label: Text(widget.post['soil']),
+                        labelStyle: TextStyle(color: Colors.white),
+                        backgroundColor: kPrimaryColor,
+                        checkmarkColor: Colors.white,
+                        onSelected: (bool value) {},
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      FilterChip(
+                        selectedColor: kPrimaryColor,
+                        selected: true,
+                        label: Text(widget.post['plants']),
+                        labelStyle: TextStyle(color: Colors.white),
+                        backgroundColor: kPrimaryColor,
+                        checkmarkColor: Colors.white,
+                        onSelected: (bool value) {},
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              title: Text("Description"),
+              subtitle: Text(widget.post["description"]),
+            ),
+            new Divider(
+              color: Colors.grey,
+            ),
+            ListTile(
+              title: Text("Date"),
+              subtitle: Text(DateFormat.yMMMMd().format(timestamp.toDate())),
+            ),
+            new Divider(
+              color: Colors.grey,
+            ),
+            ListTile(
+              title: Text("Time"),
+              subtitle: Text(
+                  widget.post["starttime"] + " - " + widget.post["endtime"]),
+            ),
+            new Divider(
+              color: Colors.grey,
+            ),
+            ListTile(
+              title: Text("Person In Charge"),
+              subtitle: Text(widget.post["PIC"]),
+            ),
+            Divider(
+              color: Colors.grey,
+            ),
+            ListTile(
+              title: Text("Speaker"),
+              subtitle: Text(widget.post["speaker"]),
+            ),
+            Divider(
+              color: Colors.grey,
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: kPrimaryColor,
