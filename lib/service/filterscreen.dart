@@ -65,11 +65,12 @@ class FilterScreenState extends State<FilterScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        leadingWidth: 75,
         leading: MaterialButton(
             onPressed: () {
               Navigator.pop(context, "");
             },
-            child: Icon(Icons.arrow_back_ios, color: Colors.white)),
+            child: Text("Cancel", style: TextStyle(color: Colors.white))),
         backgroundColor: kPrimaryColor,
         actions: [
           MaterialButton(

@@ -5,9 +5,10 @@ import 'package:flutter_auth/Screens/friend/list_friend.dart';
 import 'package:flutter_auth/Screens/friend/pending_friend.dart';
 import 'package:flutter_auth/Screens/login/login_screen.dart';
 import 'package:flutter_auth/Screens/settings/listFriend.dart';
-import 'package:flutter_auth/Screens/settings/listPage.dart';
+import 'package:flutter_auth/Screens/workshop/book_nav.dart';
+import 'package:flutter_auth/Screens/workshop/book_upcoming.dart';
 import 'package:flutter_auth/constants.dart';
-import 'package:flutter_auth/Screens/book_workshop/book.dart';
+import 'package:flutter_auth/Screens/workshop/book.dart';
 import 'edit_profile.dart';
 
 class Settings extends StatelessWidget {
@@ -263,7 +264,7 @@ class Settings extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ListPage()),
+                                  builder: (context) => NavBooked()),
                             );
                           },
                           splashColor: kPrimaryColor,
