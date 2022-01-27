@@ -28,6 +28,7 @@ class _GroupFeedState extends State<GroupFeed> {
         .where('group_id', isEqualTo: id)
         .snapshots();
     return Scaffold(
+      
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         title: Text(

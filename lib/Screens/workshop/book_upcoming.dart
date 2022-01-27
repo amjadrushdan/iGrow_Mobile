@@ -31,6 +31,7 @@ class _ListPageState extends State<ListPage> {
         )
         .snapshots();
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       // appBar: AppBar(
       //   backgroundColor: kPrimaryColor,
       //   title: Text(

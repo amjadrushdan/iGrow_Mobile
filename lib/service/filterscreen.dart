@@ -63,7 +63,7 @@ class FilterScreenState extends State<FilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         leadingWidth: 75,
         leading: MaterialButton(
@@ -99,38 +99,38 @@ class FilterScreenState extends State<FilterScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                Text("Filter By State", style: TextStyle(color: Colors.blue)),
+                Text("Filter By State", style: TextStyle(color:kDarkGreen)),
                 SizedBox(
                   height: 10,
                 ),
                 Wrap(
                   spacing: 8,
                   direction: Axis.horizontal,
-                  children: techChips(filter_state, Colors.blue),
+                  children: techChips(filter_state,kGreyGreen),
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                Text("Filter By Soil", style: TextStyle(color: Colors.blue)),
-                SizedBox(
-                  height: 10,
-                ),
-                Wrap(
-                  spacing: 8,
-                  direction: Axis.horizontal,
-                  children: techChips(filter_soil, Colors.blue),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text("Filter By Plants", style: TextStyle(color: Colors.blue)),
+                Text("Filter By Soil", style: TextStyle(color: kDarkGreen)),
                 SizedBox(
                   height: 10,
                 ),
                 Wrap(
                   spacing: 8,
                   direction: Axis.horizontal,
-                  children: techChips(filter_plant, Colors.blue),
+                  children: techChips(filter_soil,kGreyGreen),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text("Filter By Plants", style: TextStyle(color: kDarkGreen)),
+                SizedBox(
+                  height: 10,
+                ),
+                Wrap(
+                  spacing: 8,
+                  direction: Axis.horizontal,
+                  children: techChips(filter_plant,kGreyGreen),
                 ),
               ],
             ),
@@ -146,7 +146,7 @@ class FilterScreenState extends State<FilterScreen> {
       Widget item = Padding(
         padding: const EdgeInsets.only(left: 10, right: 5),
         child: FilterChip(
-          selectedColor: kPrimaryColor,
+          selectedColor: kOrange,
           label: Text(_chipsList[i].filter_title),
           labelStyle: TextStyle(color: Colors.white),
           backgroundColor: color,

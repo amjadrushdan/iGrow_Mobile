@@ -19,13 +19,83 @@ class BookingInfo extends State<BookingDetail> {
     String? user = FirebaseAuth.instance.currentUser?.uid;
     Timestamp timestamp = (widget.post['date']);
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         title: Text(widget.post["programmename"]),
         backgroundColor: kPrimaryColor,
       ),
       body: ListView(
         children: [
-          Image.network(widget.post["imageUrl"]),
+          widget.post["imageUrl"] == ""
+                ? Icon(Icons.image)
+                : Image.network(
+                    widget.post["imageUrl"],
+                    width: double.infinity,
+                    fit: BoxFit.fitWidth,
+                  ),
+                  Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 4,
+                    blurRadius: 4,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              padding: EdgeInsets.all(10),
+              margin: EdgeInsets.fromLTRB(20, 30, 20, 30),
+              child: Column(
+                children: [
+                  Text(
+                    "Tags : ",
+                    textScaleFactor: 1.2,
+                    textAlign: TextAlign.left,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      FilterChip(
+                        selectedColor: kPrimaryColor,
+                        selected: true,
+                        label: Text(widget.post['state']),
+                        labelStyle: TextStyle(color: Colors.white),
+                        backgroundColor: kPrimaryColor,
+                        checkmarkColor: Colors.white,
+                        onSelected: (bool value) {},
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      FilterChip(
+                        selectedColor: kPrimaryColor,
+                        selected: true,
+                        label: Text(widget.post['soil']),
+                        labelStyle: TextStyle(color: Colors.white),
+                        backgroundColor: kPrimaryColor,
+                        checkmarkColor: Colors.white,
+                        onSelected: (bool value) {},
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      FilterChip(
+                        selectedColor: kPrimaryColor,
+                        selected: true,
+                        label: Text(widget.post['plants']),
+                        labelStyle: TextStyle(color: Colors.white),
+                        backgroundColor: kPrimaryColor,
+                        checkmarkColor: Colors.white,
+                        onSelected: (bool value) {},
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ListTile(
             title: Text("Speaker"),
             subtitle: Text(widget.post["speaker"]),

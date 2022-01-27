@@ -20,6 +20,7 @@ class _GroupMemberState extends State<GroupMember> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         title: Text(

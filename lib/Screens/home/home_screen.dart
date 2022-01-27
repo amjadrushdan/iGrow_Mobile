@@ -172,16 +172,19 @@ class _HomeState extends State<Home> {
                       );
                     });
               })),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Post()),
-          );
-        },
-        backgroundColor: kPrimaryColor,
-        child: Icon(
-          Icons.add,
+      floatingActionButton: Padding(
+        padding:  EdgeInsets.only(bottom:  MediaQuery.of(context).viewInsets.bottom + 60),
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Post()),
+            );
+          },
+          backgroundColor: kPrimaryColor,
+          child: Icon(
+            Icons.add,
+          ),
         ),
       ),
     );

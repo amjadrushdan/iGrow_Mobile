@@ -27,6 +27,7 @@ class Booking extends State<BookingPage> {
         FirebaseFirestore.instance.collection('workshop').snapshots();
 
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         title: Text(

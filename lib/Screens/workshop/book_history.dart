@@ -31,6 +31,7 @@ class _HistoryBookState extends State<HistoryBook> {
         )
         .snapshots();
     return Scaffold(
+     
       body: Card(
         child: StreamBuilder<QuerySnapshot>(
           //future: getPosts(),

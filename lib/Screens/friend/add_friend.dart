@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/friend/add_info_friend.dart';
 import 'dart:async';
 
+import 'package:flutter_auth/constants.dart';
+
 class AddFriend extends StatefulWidget {
   @override
   _AddFriendState createState() => _AddFriendState();
@@ -23,6 +25,7 @@ class _AddFriendState extends State<AddFriend> {
         FirebaseFirestore.instance.collection('member').snapshots();
 
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       body: Center(
         child: StreamBuilder<QuerySnapshot>(
           stream: alluser,

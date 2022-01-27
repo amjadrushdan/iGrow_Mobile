@@ -8,16 +8,46 @@ import 'package:flutter_auth/Screens/settings/listFriend.dart';
 import 'package:flutter_auth/Screens/workshop/book_nav.dart';
 import 'package:flutter_auth/Screens/workshop/book_upcoming.dart';
 import 'package:flutter_auth/constants.dart';
-import 'package:flutter_auth/Screens/workshop/book.dart';
+import 'package:flutter_auth/Screens/workshop/book_workshop.dart';
 import 'edit_profile.dart';
 
 class Settings extends StatelessWidget {
   Future<void> _signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
+      
     } catch (e) {
       print(e);
+     
     }
+  }
+
+  void _alert(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            title: Text('Confirm Logout?'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    _signOut();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  },
+                  child: Text('Logout')),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cancel'))
+            ],
+          );
+        });
   }
 
   @override
@@ -56,6 +86,7 @@ class Settings extends StatelessWidget {
           }
 
           return Container(
+            color: kBackgroundColor,
             child: Column(
               children: [
                 // Profile container ========================================================
@@ -201,7 +232,7 @@ class Settings extends StatelessWidget {
                     crossAxisCount: 2,
                     children: <Widget>[
                       Card(
-                        color: Colors.grey[300],
+                        color: kPrimaryLightColor,
                         child: InkWell(
                           onTap: () {
                             Navigator.push(
@@ -230,7 +261,7 @@ class Settings extends StatelessWidget {
                         ),
                       ),
                       Card(
-                        color: Colors.grey[300],
+                        color: kPrimaryLightColor,
                         child: InkWell(
                           onTap: () {
                             Navigator.push(
@@ -258,7 +289,7 @@ class Settings extends StatelessWidget {
                         ),
                       ),
                       Card(
-                        color: Colors.grey[300],
+                        color: kPrimaryLightColor,
                         child: InkWell(
                           onTap: () {
                             Navigator.push(
@@ -286,15 +317,10 @@ class Settings extends StatelessWidget {
                         ),
                       ),
                       Card(
-                        color: Colors.grey[300],
+                        color: kPrimaryLightColor,
                         child: InkWell(
                           onTap: () {
-                            _signOut();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()),
-                            );
+                            _alert(context);
                           },
                           splashColor: kPrimaryColor,
                           child: Center(
