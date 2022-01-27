@@ -200,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
             }
 
             return Center(
-              child: Image.asset("assets/images/loading/gif"),
+              child: CircularProgressIndicator(),
             );
           },
         ),
