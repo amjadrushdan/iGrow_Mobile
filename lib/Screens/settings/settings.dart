@@ -15,10 +15,8 @@ class Settings extends StatelessWidget {
   Future<void> _signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
-      
     } catch (e) {
       print(e);
-     
     }
   }
 

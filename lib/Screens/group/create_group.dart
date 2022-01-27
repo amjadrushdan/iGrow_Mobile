@@ -65,14 +65,6 @@ class _CreateGroupState extends State<CreateGroup> {
 
   @override
   Widget build(BuildContext context) {
-    // final Stream<QuerySnapshot> create = FirebaseFirestore.instance
-    //     .collection('group')
-    //     .orderBy('id',descending: true).limit(1)
-    //     .snapshots();
-
-    // Query createGroup =
-    //     FirebaseFirestore.instance.collection('group').orderBy('id',descending: true).limit(1);
-
     final CollectionReference createGroup =
         FirebaseFirestore.instance.collection('group');
     String? user = FirebaseAuth.instance.currentUser?.uid;
