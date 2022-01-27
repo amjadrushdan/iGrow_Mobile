@@ -1,18 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/login/sign_up.dart';
+import 'package:flutter_auth/Screens/login/login_screen.dart';
+import 'package:flutter_auth/Screens/login/setup_profile.dart';
 import 'package:flutter_auth/Screens/nav.dart';
 import 'package:flutter_auth/constants.dart';
-import 'package:flutter_auth/service/authentication_service.dart';
 import 'package:flutter_auth/service/validator.dart';
 
-class LoginPage extends StatefulWidget {
+class SignUp extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
 
   final _emailTextController = TextEditingController();
@@ -116,39 +116,24 @@ class _LoginPageState extends State<LoginPage> {
                                   children: [
                                     Expanded(
                                       child: ElevatedButton(
-                                        onPressed: () async {
-                                          _focusEmail.unfocus();
-                                          _focusPassword.unfocus();
-
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            setState(() {
-                                              _isProcessing = true;
-                                            });
-
-                                            // dynamic result = await FireAuth.signInUsingEmailPassword(email: email, password: password)
-                                            User? user = await FireAuth
-                                                .signInUsingEmailPassword(
-                                              email: _emailTextController.text,
-                                              password:
-                                                  _passwordTextController.text,
-                                            );
-
-                                            setState(() {
-                                              _isProcessing = false;
-                                            });
-
-                                            if (user != null) {
-                                              Navigator.of(context)
-                                                  .pushReplacement(
+                                        onPressed: () {
+                                          FirebaseAuth.instance
+                                              .createUserWithEmailAndPassword(
+                                                  email:
+                                                      _emailTextController.text,
+                                                  password:
+                                                      _passwordTextController
+                                                          .text)
+                                              .then((value) {
+                                            print("Created New Account");
+                                            Navigator.push(
+                                                context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => Nav(),
-                                                ),
-                                              );
-                                            } else if (user == null) {
-                                              _alert(context);
-                                            }
-                                          }
+                                                    builder: (context) =>
+                                                        SetupProfile()));
+                                          }).onError((error, stackTrace) {
+                                            print("Error ${error.toString()}");
+                                          });
                                         },
                                         style: ElevatedButton.styleFrom(
                                           primary: kPrimaryColor,
@@ -158,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                                           ),
                                         ),
                                         child: Text(
-                                          'Sign In',
+                                          'Create Account',
                                           style: TextStyle(color: Colors.white),
                                         ),
                                       ),
@@ -173,15 +158,15 @@ class _LoginPageState extends State<LoginPage> {
                                 onTap: () =>
                                     Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                    builder: (context) => SignUp(),
+                                    builder: (context) => LoginPage(),
                                   ),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text("Don't have an account? "),
+                                    Text("Have an account? "),
                                     Text(
-                                      'Sign Up.',
+                                      'Login.',
                                       style: TextStyle(
                                           color: Theme.of(context).primaryColor,
                                           fontWeight: FontWeight.w600),
