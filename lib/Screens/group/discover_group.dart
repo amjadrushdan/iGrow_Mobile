@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_auth/Screens/group/info_group.dart';
+import 'package:flutter_auth/constants.dart';
 
 class GroupDiscover extends StatefulWidget {
   String FilterText;
@@ -23,6 +24,7 @@ class _GroupDiscoverState extends State<GroupDiscover> {
         .snapshots();
 
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       body: Center(
         child: StreamBuilder<QuerySnapshot>(
           stream: group,
@@ -54,9 +56,11 @@ class _GroupDiscoverState extends State<GroupDiscover> {
 
                     if (!check1 && ((check2 || check4) || check3)) {
                       return Card(
+                  
                         elevation: 6,
                         margin: EdgeInsets.all(10),
                         child: ListTile(
+                         
                           leading: CircleAvatar(
                             backgroundColor: Colors.grey,
                             radius: 22,

@@ -18,6 +18,7 @@ class _InfoGroupState extends State<InfoGroup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
         title: Text(widget.docid.get('name')),
         centerTitle: true,

@@ -18,6 +18,7 @@ class _NavBookedState extends State<NavBooked> {
   Widget build(BuildContext context) => DefaultTabController(
       length: 2,
       child: Scaffold(
+        
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
           title: Text('Booked Workshop'),

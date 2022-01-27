@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter_auth/Screens/friend/info_friend.dart';
+import 'package:flutter_auth/constants.dart';
 
 import '../nav.dart';
 
@@ -26,6 +27,7 @@ class _ListFriendState extends State<ListFriend> {
         FirebaseFirestore.instance.collection('member').snapshots();
 
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       body: Center(
         child: StreamBuilder<QuerySnapshot>(
           stream: alluser,
@@ -136,5 +138,28 @@ class _ListFriendState extends State<ListFriend> {
         ),
       ),
     );
+  }
+  void _alert(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            title: Text('Incorrect Email/Password'),
+            content: Text("Please retry"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Center(
+                      child: Text(
+                    'Ok',
+                    textScaleFactor: 1.5,
+                  )))
+            ],
+          );
+        });
   }
 }

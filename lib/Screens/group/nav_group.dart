@@ -73,17 +73,20 @@ class _GroupNavState extends State<GroupNav> {
           ),
           // appBar: BaseAppBar(appBar: AppBar(), title: "Group"),
 
-          floatingActionButton: FloatingActionButton.extended(
-            backgroundColor: kPrimaryColor,
-            icon: Icon(Icons.groups),
-            label: Text("Create Group"),
-            onPressed: () {
-              //create group
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CreateGroup()),
-              );
-            },
+          floatingActionButton: Padding(
+            padding:  EdgeInsets.only(bottom:  MediaQuery.of(context).viewInsets.bottom + 60),
+            child: FloatingActionButton.extended(
+              backgroundColor: kPrimaryColor,
+              icon: Icon(Icons.groups),
+              label: Text("Create Group"),
+              onPressed: () {
+                //create group
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CreateGroup()),
+                );
+              },
+            ),
           ),
           body: TabBarView(
             children: [
