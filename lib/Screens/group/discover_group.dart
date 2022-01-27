@@ -56,11 +56,9 @@ class _GroupDiscoverState extends State<GroupDiscover> {
 
                     if (!check1 && ((check2 || check4) || check3)) {
                       return Card(
-                  
                         elevation: 6,
                         margin: EdgeInsets.all(10),
                         child: ListTile(
-                         
                           leading: CircleAvatar(
                             backgroundColor: Colors.grey,
                             radius: 22,

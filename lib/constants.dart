@@ -8,3 +8,4 @@ const kOrange = Color(0xFFf2ac3d);
 const kDarkGreen = Color(0xFF4c6746);
 const kGreyGreen = Color(0xFF8a9f83);
 const kDeepGreen = Color(0xFF38792c);
+const kteaGreen = Color(0xFF7ea567);
