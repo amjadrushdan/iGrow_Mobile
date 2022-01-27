@@ -69,7 +69,7 @@ class _HistoryBookState extends State<HistoryBook> {
                     bool check3 = widget.FilterText.isEmpty;
                     bool check4 = state.contains(data.docs[index]['soil']);
                     bool check5 = timestamp.toDate().isBefore(date);
-                    if ((check2 || check4) || check3 && check5) {
+                    if (((check2 || check4) || check3 )&& check5) {
                       return Card(
                         elevation: 6,
                         margin: EdgeInsets.all(10),
