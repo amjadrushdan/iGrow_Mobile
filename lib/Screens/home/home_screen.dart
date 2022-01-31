@@ -63,9 +63,7 @@ class _HomeState extends State<Home> {
                           }
                           if (snapshot2.connectionState ==
                               ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
+                            return SizedBox.shrink();
                           }
 
                           var added =

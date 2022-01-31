@@ -14,13 +14,10 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
-
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
-
   final _focusEmail = FocusNode();
   final _focusPassword = FocusNode();
-
   bool _isProcessing = false;
 
   Future<FirebaseApp> _initializeFirebase() async {
@@ -46,148 +43,155 @@ class _SignUpState extends State<SignUp> {
         _focusEmail.unfocus();
         _focusPassword.unfocus();
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('IGROW KMS'),
-          backgroundColor: kPrimaryColor,
-          automaticallyImplyLeading: false,
-        ),
-        body: FutureBuilder(
-          future: _initializeFirebase(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20.0),
-                      child: Image.asset(
-                        "assets/images/igrow_logo.png",
-                        scale: 2,
-                        width: 300,
+      child: WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('IGROW KMS'),
+            backgroundColor: kPrimaryColor,
+            automaticallyImplyLeading: false,
+          ),
+          body: FutureBuilder(
+            future: _initializeFirebase(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: Image.asset(
+                          "assets/images/igrow_logo.png",
+                          scale: 2,
+                          width: 300,
+                        ),
                       ),
-                    ),
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        children: <Widget>[
-                          TextFormField(
-                            controller: _emailTextController,
-                            focusNode: _focusEmail,
-                            validator: (value) => Validator.validateEmail(
-                              email: value,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: "Email",
-                              errorBorder: UnderlineInputBorder(
-                                borderRadius: BorderRadius.circular(6.0),
-                                borderSide: BorderSide(
-                                  color: Colors.red,
-                                ),
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: <Widget>[
+                            TextFormField(
+                              controller: _emailTextController,
+                              focusNode: _focusEmail,
+                              validator: (value) => Validator.validateEmail(
+                                email: value,
                               ),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          TextFormField(
-                            controller: _passwordTextController,
-                            focusNode: _focusPassword,
-                            obscureText: true,
-                            validator: (value) => Validator.validatePassword(
-                              password: value,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: "Password",
-                              errorBorder: UnderlineInputBorder(
-                                borderRadius: BorderRadius.circular(6.0),
-                                borderSide: BorderSide(
-                                  color: Colors.red,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 24.0),
-                          _isProcessing
-                              ? CircularProgressIndicator()
-                              : Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          FirebaseAuth.instance
-                                              .createUserWithEmailAndPassword(
-                                                  email:
-                                                      _emailTextController.text,
-                                                  password:
-                                                      _passwordTextController
-                                                          .text)
-                                              .then((value) {
-                                            print("Created New Account");
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        SetupProfile()));
-                                          }).onError((error, stackTrace) {
-                                            print("Error ${error.toString()}");
-                                          });
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          primary: kPrimaryColor,
-                                          shape: new RoundedRectangleBorder(
-                                            borderRadius:
-                                                new BorderRadius.circular(30.0),
-                                          ),
-                                        ),
-                                        child: Text(
-                                          'Create Account',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10.0),
-                                  ],
-                                ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () =>
-                                    Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) => LoginPage(),
+                              decoration: InputDecoration(
+                                hintText: "Email",
+                                errorBorder: UnderlineInputBorder(
+                                  borderRadius: BorderRadius.circular(6.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.red,
                                   ),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text("Have an account? "),
-                                    Text(
-                                      'Login.',
-                                      style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                          fontWeight: FontWeight.w600),
-                                    )
-                                  ],
+                              ),
+                            ),
+                            SizedBox(height: 8.0),
+                            TextFormField(
+                              controller: _passwordTextController,
+                              focusNode: _focusPassword,
+                              obscureText: true,
+                              validator: (value) => Validator.validatePassword(
+                                password: value,
+                              ),
+                              decoration: InputDecoration(
+                                hintText: "Password",
+                                errorBorder: UnderlineInputBorder(
+                                  borderRadius: BorderRadius.circular(6.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.red,
+                                  ),
                                 ),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              );
-            }
+                              ),
+                            ),
+                            SizedBox(height: 24.0),
+                            _isProcessing
+                                ? CircularProgressIndicator()
+                                : Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            FirebaseAuth.instance
+                                                .createUserWithEmailAndPassword(
+                                                    email: _emailTextController
+                                                        .text,
+                                                    password:
+                                                        _passwordTextController
+                                                            .text)
+                                                .then((value) {
+                                              print("Created New Account");
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          SetupProfile()));
+                                            }).onError((error, stackTrace) {
+                                              print(
+                                                  "Error ${error.toString()}");
+                                            });
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            primary: kPrimaryColor,
+                                            shape: new RoundedRectangleBorder(
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      30.0),
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'Create Account',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 10.0),
+                                    ],
+                                  ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () =>
+                                      Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => LoginPage(),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("Have an account? "),
+                                      Text(
+                                        'Login.',
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontWeight: FontWeight.w600),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }
 
-            return Center(
-              child: Image.asset("assets/images/loading/gif"),
-            );
-          },
+              return Center(
+                child: Image.asset("assets/images/loading/gif"),
+              );
+            },
+          ),
         ),
       ),
     );

@@ -59,9 +59,7 @@ class _PendingFriendState extends State<PendingFriend> {
                       }
                       if (snapshot2.connectionState ==
                           ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        return SizedBox.shrink();
                       }
                       if (data.docs[index]['userid'] == user) {
                         return SizedBox.shrink();

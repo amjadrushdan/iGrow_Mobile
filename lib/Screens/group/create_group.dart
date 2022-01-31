@@ -324,27 +324,34 @@ class _CreateGroupState extends State<CreateGroup> {
                         setState(() {
                           image = File(file.path);
                           print(file.path);
+                          if (image != null) {
+                            setState(() {
+                              isVisible = true;
+                            });
+
+                            _storage.uploadFile(image!, context);
+                          }
                         });
                       });
                     },
                   ),
-                  TextButton(
-                      onPressed: () {
-                        if (image != null) {
-                          setState(() {
-                            isVisible = true;
-                          });
+                  // TextButton(
+                  //     onPressed: () {
+                  //       if (image != null) {
+                  //         setState(() {
+                  //           isVisible = true;
+                  //         });
 
-                          _storage.uploadFile(image!, context);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("No Image was selected")));
-                        }
-                      },
-                      child: Text(
-                        'Upload Image',
-                        style: TextStyle(color: kPrimaryColor),
-                      ))
+                  //         _storage.uploadFile(image!, context);
+                  //       } else {
+                  //         ScaffoldMessenger.of(context).showSnackBar(
+                  //             SnackBar(content: Text("No Image was selected")));
+                  //       }
+                  //     },
+                  //     child: Text(
+                  //       'Upload Image',
+                  //       style: TextStyle(color: kPrimaryColor),
+                  //     ))
                 ],
               ),
             ),

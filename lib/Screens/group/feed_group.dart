@@ -95,9 +95,7 @@ class _GroupFeedState extends State<GroupFeed> {
               return Text("something is wrong");
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return SizedBox.shrink();
             }
             final data = snapshot.requireData;
             if (data.docs.isEmpty) {

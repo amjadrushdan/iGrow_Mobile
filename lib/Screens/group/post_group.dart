@@ -108,24 +108,6 @@ class _GroupPostState extends State<GroupPost> {
               ),
             ),
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   children: [
-          //     RaisedButton(
-          //       onPressed: () {},
-          //       color: kPrimaryColor,
-          //       padding: EdgeInsets.symmetric(horizontal: 50),
-          //       elevation: 2,
-          //       shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(20)),
-          //       child: Text(
-          //         "UPLOAD IMAGE",
-          //         style: TextStyle(
-          //             fontSize: 14, letterSpacing: 2.2, color: Colors.white),
-          //       ),
-          //     )
-          //   ],
-          // ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -151,22 +133,11 @@ class _GroupPostState extends State<GroupPost> {
                       setState(() {
                         image = File(file.path);
                         print(file.path);
+                        if (image != null) _storage.uploadFile(image!, context);
                       });
                     });
                   },
                 ),
-                TextButton(
-                    onPressed: () {
-                      if (image != null)
-                        _storage.uploadFile(image!, context);
-                      else
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("No Image was selected")));
-                    },
-                    child: Text(
-                      'Upload Image',
-                      style: TextStyle(color: kPrimaryColor),
-                    ))
               ],
             ),
           ),

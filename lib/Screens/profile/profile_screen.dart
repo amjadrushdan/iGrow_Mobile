@@ -53,10 +53,9 @@ class _ProfileState extends State<Profile> {
                               }
                               if (snapshot2.connectionState ==
                                   ConnectionState.waiting) {
-                                return Center(
-                                  child:
-                                      Image.asset('assets/images/loading.gif'),
-                                );
+
+                                return SizedBox.shrink();
+
                               }
                               return Column(
                                 children: <Widget>[
