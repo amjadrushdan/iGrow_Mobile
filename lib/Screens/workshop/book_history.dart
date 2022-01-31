@@ -15,6 +15,15 @@ class HistoryBook extends StatefulWidget {
 }
 
 class _HistoryBookState extends State<HistoryBook> {
+  String _foundedWorkshops = "";
+
+  onSearch(String search) {
+    setState(() {
+      _foundedWorkshops = search;
+      print(_foundedWorkshops);
+    });
+  }
+
   navigateToDetail(DocumentSnapshot post) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => DetailPage(post: post)));
@@ -31,79 +40,117 @@ class _HistoryBookState extends State<HistoryBook> {
         )
         .snapshots();
     return Scaffold(
-     
-      body: Card(
-        child: StreamBuilder<QuerySnapshot>(
-          //future: getPosts(),
-          stream: workshop,
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            //var indexLength = snapshot.data.length;
-            if (!snapshot.hasData) {
-              return Center(
-                child: Text("Loading..."),
-              );
-            } else {
-              final data = snapshot.requireData;
+      backgroundColor: kBackgroundColor,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 38,
+              margin: EdgeInsets.fromLTRB(15, 15, 15, 8),
+              child: TextField(
+                onChanged: (value) => onSearch(value),
+                decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.all(0),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.black,
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
+                        borderSide: BorderSide.none),
+                    hintStyle: TextStyle(fontSize: 14, color: Colors.black),
+                    hintText: "Search workshops"),
+              ),
+            ),
+            Container(
+              child: StreamBuilder<QuerySnapshot>(
+                //future: getPosts(),
+                stream: workshop,
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  //var indexLength = snapshot.data.length;
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: Text("Loading..."),
+                    );
+                  } else {
+                    final data = snapshot.requireData;
 
-              if (data.docs.isEmpty) {
-                return Center(
-                  child: Text(
-                    "You have not book any workshop !",
-                    textScaleFactor: 1.3,
-                  ),
-                );
-              } else {
-                //var data = snapshot.requireData;
-                //data = checkIsJoin(data, user);
-                return ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: data.size,
-                  itemBuilder: (BuildContext context, int index) {
-                    // var joined = data.docs[index]['joined_uid'];
-                    // bool check1 = joined.contains(user!);
-                    var state = widget.FilterText;
-                    Timestamp timestamp = (data.docs[index]['date']);
-                    DateTime now = new DateTime.now();
-                    DateTime date = new DateTime(now.year, now.month, now.day);
-                    bool check2 = state.contains(data.docs[index]['state']);
-                    bool check3 = widget.FilterText.isEmpty;
-                    bool check4 = state.contains(data.docs[index]['soil']);
-                    bool check5 = timestamp.toDate().isBefore(date);
-                    if (((check2 || check4) || check3 )&& check5) {
-                      return Card(
-                        elevation: 6,
-                        margin: EdgeInsets.all(10),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            radius: 22,
-                            backgroundImage:
-                                NetworkImage(data.docs[index]['imageUrl']),
-                          ),
-                          //title: Text(snapshot.data[index]['programmename']),
-                          //subtitle: Text(snapshot.data[index]['date']),
-                          title: Text("${data.docs[index]['programmename']}"),
-                          subtitle: Text(
-                              DateFormat.yMMMMd().format(timestamp.toDate())),
-                          //onTap: () => navigateToDetail(snapshot.data[index]),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DetailPage(
-                                        post: snapshot.data!.docs[index],
-                                      )),
-                            );
-                          },
+                    if (data.docs.isEmpty) {
+                      return Center(
+                        child: Text(
+                          "You have not book any workshop !",
+                          textScaleFactor: 1.3,
                         ),
                       );
                     } else {
-                      return SizedBox.shrink();
+                      //var data = snapshot.requireData;
+                      //data = checkIsJoin(data, user);
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: data.size,
+                        itemBuilder: (BuildContext context, int index) {
+                          // var joined = data.docs[index]['joined_uid'];
+                          // bool check1 = joined.contains(user!);
+                          var state = widget.FilterText;
+                          Timestamp timestamp = (data.docs[index]['date']);
+                          DateTime now = new DateTime.now();
+                          DateTime date =
+                              new DateTime(now.year, now.month, now.day);
+                          bool check2 =
+                              state.contains(data.docs[index]['state']);
+                          bool check3 = widget.FilterText.isEmpty;
+                          bool check4 =
+                              state.contains(data.docs[index]['soil']);
+                          bool check5 = timestamp.toDate().isBefore(date);
+                          bool check6 = data.docs[index]['programmename']
+                              .toLowerCase()
+                              .contains(_foundedWorkshops.toLowerCase());
+
+                          if (((check2 || check4) || check3) &&
+                              check5 &&
+                              check6) {
+                            return Card(
+                              elevation: 6,
+                              margin: EdgeInsets.all(10),
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  radius: 22,
+                                  backgroundImage: NetworkImage(
+                                      data.docs[index]['imageUrl']),
+                                ),
+                                //title: Text(snapshot.data[index]['programmename']),
+                                //subtitle: Text(snapshot.data[index]['date']),
+                                title: Text(
+                                    "${data.docs[index]['programmename']}"),
+                                subtitle: Text(DateFormat.yMMMMd()
+                                    .format(timestamp.toDate())),
+                                //onTap: () => navigateToDetail(snapshot.data[index]),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DetailPage(
+                                              post: snapshot.data!.docs[index],
+                                            )),
+                                  );
+                                },
+                              ),
+                            );
+                          } else {
+                            return SizedBox.shrink();
+                          }
+                        },
+                      );
                     }
-                  },
-                );
-              }
-            }
-          },
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

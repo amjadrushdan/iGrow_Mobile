@@ -60,9 +60,7 @@ class _HomeState extends State<Home> {
                           }
                           if (snapshot2.connectionState ==
                               ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
+                            return SizedBox.shrink();
                           }
 
                           var added =
@@ -93,8 +91,8 @@ class _HomeState extends State<Home> {
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       InfoFriend(
-                                                          docid: snapshot2.data!
-                                                              .docs[0]),
+                                                          docid: snapshot2
+                                                              .data!.docs[0]),
                                                 ));
                                           },
                                         ),
@@ -173,7 +171,8 @@ class _HomeState extends State<Home> {
                     });
               })),
       floatingActionButton: Padding(
-        padding:  EdgeInsets.only(bottom:  MediaQuery.of(context).viewInsets.bottom + 60),
+        padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom + 60),
         child: FloatingActionButton(
           onPressed: () {
             Navigator.push(

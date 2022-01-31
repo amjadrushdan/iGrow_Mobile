@@ -137,23 +137,11 @@ class _PostState extends State<Post> {
                       setState(() {
                         image = File(file.path);
                         print(file.path);
+                        if (image != null) _storage.uploadFile(image!, context);
                       });
                     });
                   },
                 ),
-                TextButton(
-                  onPressed: () {
-                    if (image != null)
-                      _storage.uploadFile(image!, context);
-                    else
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("No Image was selected")));
-                  },
-                  child: Text(
-                    'Upload Image',
-                    style: TextStyle(color: kPrimaryColor),
-                  ),
-                )
               ],
             ),
           ),
