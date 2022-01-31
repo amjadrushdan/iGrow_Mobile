@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,16 +8,10 @@ import 'package:flutter_auth/Screens/settings/listFriend.dart';
 import 'package:flutter_auth/Screens/workshop/book_nav.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/Screens/workshop/book_workshop.dart';
+import 'package:flutter_auth/service/authentication_service.dart';
 import 'edit_profile.dart';
 
 class Settings extends StatelessWidget {
-  // Future<void> _signOut() async {
-  //   try {
-  //     await FirebaseAuth.instance.signOut();
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 
   void _alert(BuildContext context) {
     showDialog(
@@ -113,11 +108,21 @@ class Settings extends StatelessWidget {
                               child: CircleAvatar(
                                 radius: 55,
                                 backgroundColor: kPrimaryColor,
-                                child: CircleAvatar(
-                                  radius: 51,
-                                  backgroundImage: NetworkImage(
-                                      snapshot.data!.docs[0]['imageUrl']),
-                                ),
+                                child:  CachedNetworkImage(
+                              fadeInDuration: Duration(milliseconds: 500),
+                              imageUrl:snapshot.data!.docs[0]['imageUrl'],
+                            
+                              placeholder: (context, url) => const CircleAvatar(
+                                backgroundColor: kDeepGreen,
+                                radius: 51,
+                              ),
+                              imageBuilder: (context, image) => CircleAvatar(
+                                backgroundImage: image,
+                                radius: 51,
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            ),
                               )),
                         ),
                       ),

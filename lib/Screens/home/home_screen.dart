@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,9 @@ class _HomeState extends State<Home> {
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 10,
+                    ),
                   );
                 }
                 final data = snapshot.requireData;
@@ -83,7 +86,8 @@ class _HomeState extends State<Home> {
                                             radius: 27,
                                             backgroundImage: NetworkImage(
                                                 snapshot2.data!.docChanges[0]
-                                                    .doc['imageUrl']),
+                                                        .doc['imageUrl'] ??
+                                                    ""),
                                           ),
                                           onTap: () {
                                             Navigator.push(
@@ -148,10 +152,32 @@ class _HomeState extends State<Home> {
                                                     TextStyle(fontSize: 16.0),
                                               ),
                                             ),
-                                            data.docs[index]['imageUrl'] == ""
+                                            data.docs[index]["imageUrl"] == ""
                                                 ? SizedBox.shrink()
-                                                : Image.network(
-                                                    "${data.docs[index]['imageUrl']}"),
+                                                : CachedNetworkImage(
+                                                    placeholder: (context,url) => Image(image: AssetImage('assets/images/loading.gif')),
+                                                    imageUrl: data.docs[index]["imageUrl"],
+                                                    errorWidget: (context, url, error) => Icon(Icons.error),
+                                                    fadeInDuration: Duration(milliseconds: 900),
+                                                  )
+
+                                            // data.docs[index]["imageUrl"] == ""
+                                            //     ? SizedBox.shrink()
+                                            //     : FadeInImage.assetNetwork(
+                                            //         fadeInDuration: Duration(
+                                            //             milliseconds: 900),
+                                            //         fadeInCurve:
+                                            //             Curves.easeInCubic,
+                                            //         placeholder:
+                                            //             'assets/images/loading.gif',
+                                            //         image: data.docs[index]
+                                            //             ["imageUrl"],
+                                            //       ),
+
+                                            // data.docs[index]['imageUrl'] == ""
+                                            //     ? SizedBox.shrink()
+                                            //     : Image.network(
+                                            //         "${data.docs[index]['imageUrl']}"),
                                           ],
                                         ),
                                       )

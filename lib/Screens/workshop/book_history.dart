@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -83,6 +84,7 @@ class _HistoryBookState extends State<HistoryBook> {
                         child: Text(
                           "You have not book any workshop !",
                           textScaleFactor: 1.3,
+
                         ),
                       );
                     } else {
@@ -117,18 +119,24 @@ class _HistoryBookState extends State<HistoryBook> {
                               elevation: 6,
                               margin: EdgeInsets.all(10),
                               child: ListTile(
-                                leading: CircleAvatar(
-                                  radius: 22,
-                                  backgroundImage: NetworkImage(
-                                      data.docs[index]['imageUrl']),
-                                ),
-                                //title: Text(snapshot.data[index]['programmename']),
-                                //subtitle: Text(snapshot.data[index]['date']),
+                                leading: CachedNetworkImage(
+                            fadeInDuration: Duration(milliseconds: 500),
+                            imageUrl: data.docs[index]['imageUrl'],
+                            placeholder: (context, url) => const CircleAvatar(
+                              backgroundColor: kDeepGreen,
+                              radius: 22,
+                            ),
+                            imageBuilder: (context, image) => CircleAvatar(
+                              backgroundImage: image,
+                              radius: 22,
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          ),
                                 title: Text(
                                     "${data.docs[index]['programmename']}"),
                                 subtitle: Text(DateFormat.yMMMMd()
                                     .format(timestamp.toDate())),
-                                //onTap: () => navigateToDetail(snapshot.data[index]),
                                 onTap: () {
                                   Navigator.push(
                                     context,
@@ -182,13 +190,14 @@ class _DetailPageState extends State<DetailPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            widget.post["imageUrl"] == ""
-                ? Icon(Icons.image)
-                : Image.network(
-                    widget.post["imageUrl"],
-                    width: double.infinity,
-                    fit: BoxFit.fitWidth,
-                  ),
+            CachedNetworkImage(
+            imageUrl: widget.post["imageUrl"],
+            fit: BoxFit.fitWidth,
+            width: double.infinity,
+            placeholder: (context, url) =>
+                Image(image: AssetImage('assets/images/loading.gif')),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,

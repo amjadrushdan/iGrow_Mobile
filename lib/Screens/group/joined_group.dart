@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -84,8 +85,6 @@ class _GroupJoinedState extends State<GroupJoined> {
                         physics: BouncingScrollPhysics(),
                         itemCount: data.size,
                         itemBuilder: (BuildContext context, int index) {
-                          // var joined = data.docs[index]['joined_uid'];
-                          // bool check1 = joined.contains(user!);
                           var state = widget.FilterText;
                           bool check2 =
                               state.contains(data.docs[index]['state']);
@@ -101,11 +100,20 @@ class _GroupJoinedState extends State<GroupJoined> {
                               elevation: 6,
                               margin: EdgeInsets.all(10),
                               child: ListTile(
-                                leading: CircleAvatar(
-                                  radius: 22,
-                                  backgroundImage: NetworkImage(
-                                      data.docs[index]['imageUrl']),
-                                ),
+                                leading:  CachedNetworkImage(
+                              fadeInDuration: Duration(milliseconds: 200),
+                              imageUrl: data.docs[index]['imageUrl'],
+                              placeholder: (context, url) => const CircleAvatar(
+                                backgroundColor: kDeepGreen,
+                                radius: 22,
+                              ),
+                              imageBuilder: (context, image) => CircleAvatar(
+                                backgroundImage: image,
+                                radius: 22,
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            ),
                                 title: Text("${data.docs[index]['name']}"),
                                 onTap: () {
                                   Navigator.push(
@@ -117,6 +125,7 @@ class _GroupJoinedState extends State<GroupJoined> {
                                   );
                                 },
                               ),
+
                             );
                           } else {
                             return SizedBox.shrink();

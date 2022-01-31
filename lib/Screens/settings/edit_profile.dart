@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -112,10 +113,19 @@ class _editProfileState extends State<editProfile> {
                       ),
                       child: image == null
                           ? ClipOval(
-                              child: Image.network(
-                                widget.docid.get('imageUrl'),
+                              child: CachedNetworkImage(
+                                fadeInDuration: Duration(milliseconds: 500),
+                                imageUrl: widget.docid.get('imageUrl'),
+                                placeholder: (context, url) =>
+                                    Icon(Icons.person),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                                 fit: BoxFit.cover,
                               ),
+                              // Image.network(
+                              //   widget.docid.get('imageUrl'),
+                              //   fit: BoxFit.cover,
+                              // ),
                             )
                           : ClipOval(
                               child: Image.file(
