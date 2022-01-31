@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -78,10 +79,19 @@ class _AllFriendsState extends State<AllFriends> {
                           elevation: 6,
                           margin: EdgeInsets.all(10),
                           child: ListTile(
-                            leading: CircleAvatar(
-                              radius: 22,
-                              backgroundImage: NetworkImage(
-                                  "${data.docs[index]['imageUrl']}"),
+                            leading: CachedNetworkImage(
+                              fadeInDuration: Duration(milliseconds: 500),
+                              imageUrl: data.docs[index]['imageUrl'],
+                              placeholder: (context, url) => const CircleAvatar(
+                                backgroundColor: kDeepGreen,
+                                radius: 22,
+                              ),
+                              imageBuilder: (context, image) => CircleAvatar(
+                                backgroundImage: image,
+                                radius: 22,
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                             ),
                             title: Text("${data.docs[index]['username']}"),
                             onTap: () {

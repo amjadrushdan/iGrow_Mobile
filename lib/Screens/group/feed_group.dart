@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,6 @@ class _GroupFeedState extends State<GroupFeed> {
         .where('group_id', isEqualTo: id)
         .snapshots();
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         title: Text(
@@ -142,20 +142,36 @@ class _GroupFeedState extends State<GroupFeed> {
                                   padding: const EdgeInsets.fromLTRB(
                                       6.0, 10.0, 10.0, 10.0),
                                   child: InkWell(
-                                    child: CircleAvatar(
-                                      radius: 27,
-                                      backgroundImage: NetworkImage(snapshot2
-                                          .data!.docChanges[0].doc['imageUrl']),
+                                    child: CachedNetworkImage(
+                                      fadeInDuration:
+                                          Duration(milliseconds: 200),
+                                      imageUrl: snapshot2
+                                          .data!.docChanges[0].doc['imageUrl'],
+                                      placeholder: (context, url) =>
+                                          const CircleAvatar(
+                                        backgroundColor: kDeepGreen,
+                                        radius: 22,
+                                      ),
+                                      imageBuilder: (context, image) =>
+                                          CircleAvatar(
+                                        backgroundImage: image,
+                                        radius: 22,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
                                     ),
+                                    // CircleAvatar(
+                                    //   radius: 27,
+                                    //   backgroundImage: NetworkImage(snapshot2
+                                    //       .data!.docChanges[0].doc['imageUrl']),
+                                    // ),
                                     onTap: () {
                                       Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      InfoFriend(
-                                                          docid: snapshot2.data!
-                                                              .docs[0]),
-                                                ));
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => InfoFriend(
+                                                docid: snapshot2.data!.docs[0]),
+                                          ));
                                     },
                                   ),
                                 ),
@@ -204,10 +220,20 @@ class _GroupFeedState extends State<GroupFeed> {
                                           textAlign: TextAlign.left,
                                         ),
                                       ),
-                                      data.docs[index]['imageUrl'] == ""
+                                      data.docs[index]["imageUrl"] == ""
                                           ? SizedBox.shrink()
-                                          : Image.network(
-                                              "${data.docs[index]['imageUrl']}"),
+                                          : CachedNetworkImage(
+                                              placeholder: (context, url) => Image(
+                                                  image: AssetImage(
+                                                      'assets/images/loading.gif')),
+                                              imageUrl: data.docs[index]
+                                                  ["imageUrl"],
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
+                                              fadeInDuration:
+                                                  Duration(milliseconds: 900),
+                                            )
                                     ],
                                   ),
                                 )

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -39,16 +40,25 @@ class _InfoFriendState extends State<InfoFriend> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Container(
-                    alignment: Alignment(0.0, 0.0),
-                    child: CircleAvatar(
-                      radius: 67,
-                      backgroundColor: kPrimaryColor,
-                      child: CircleAvatar(
+                  alignment: Alignment(0.0, 0.0),
+                  child: CircleAvatar(
+                    radius: 67,
+                    backgroundColor: kPrimaryColor,
+                    child: CachedNetworkImage(
+                      fadeInDuration: Duration(milliseconds: 500),
+                      imageUrl: widget.docid.get('imageUrl'),
+                      placeholder: (context, url) => const CircleAvatar(
+                        backgroundColor: kDeepGreen,
                         radius: 63,
-                        backgroundImage:
-                            NetworkImage(widget.docid.get('imageUrl')),
                       ),
-                    )),
+                      imageBuilder: (context, image) => CircleAvatar(
+                        backgroundImage: image,
+                        radius: 63,
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  ),
+                ),
               ),
               ListTile(
                 title: Text("Name"),

@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/profile/edit_post.dart';
+import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/service/appBar.dart';
 
 class Profile extends StatefulWidget {
@@ -47,12 +49,13 @@ class _ProfileState extends State<Profile> {
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot2) {
                               if (snapshot2.hasError) {
-                                return Text("something is wrong");
+                                print(Text("Error data"));
                               }
                               if (snapshot2.connectionState ==
                                   ConnectionState.waiting) {
                                 return Center(
-                                  child: CircularProgressIndicator(),
+                                  child:
+                                      Image.asset('assets/images/loading.gif'),
                                 );
                               }
                               return Column(
@@ -66,11 +69,24 @@ class _ProfileState extends State<Profile> {
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               6.0, 10.0, 10.0, 10.0),
-                                          child: CircleAvatar(
-                                            radius: 27,
-                                            backgroundImage: NetworkImage(
-                                                snapshot2.data!.docChanges[0]
-                                                    .doc['imageUrl']),
+                                          child: CachedNetworkImage(
+                                            fadeInDuration:
+                                                Duration(milliseconds: 500),
+                                            imageUrl: snapshot2.data!
+                                                .docChanges[0].doc['imageUrl'],
+                                            placeholder: (context, url) =>
+                                                const CircleAvatar(
+                                              backgroundColor: kDeepGreen,
+                                              radius: 27,
+                                            ),
+                                            imageBuilder: (context, image) =>
+                                                CircleAvatar(
+                                              backgroundImage: image,
+                                              radius: 27,
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
                                           ),
                                         ),
                                         Expanded(
@@ -152,10 +168,22 @@ class _ProfileState extends State<Profile> {
                                                       TextStyle(fontSize: 16.0),
                                                 ),
                                               ),
-                                              data.docs[index]['imageUrl'] == ""
+                                              data.docs[index]["imageUrl"] == ""
                                                   ? SizedBox.shrink()
-                                                  : Image.network(
-                                                      "${data.docs[index]['imageUrl']}"),
+                                                  : CachedNetworkImage(
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          Image(
+                                                              image: AssetImage(
+                                                                  'assets/images/loading.gif')),
+                                                      imageUrl: data.docs[index]
+                                                          ["imageUrl"],
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          Icon(Icons.error),
+                                                      fadeInDuration: Duration(
+                                                          milliseconds: 900),
+                                                    )
                                             ],
                                           ),
                                         )
