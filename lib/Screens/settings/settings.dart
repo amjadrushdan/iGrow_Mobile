@@ -1,24 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/friend/list_friend.dart';
 import 'package:flutter_auth/Screens/friend/pending_friend.dart';
 import 'package:flutter_auth/Screens/login/login_screen.dart';
 import 'package:flutter_auth/Screens/settings/listFriend.dart';
 import 'package:flutter_auth/Screens/workshop/book_nav.dart';
-import 'package:flutter_auth/Screens/workshop/book_upcoming.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/Screens/workshop/book_workshop.dart';
 import 'edit_profile.dart';
 
 class Settings extends StatelessWidget {
-  Future<void> _signOut() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-    } catch (e) {
-      print(e);
-    }
-  }
+  // Future<void> _signOut() async {
+  //   try {
+  //     await FirebaseAuth.instance.signOut();
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   void _alert(BuildContext context) {
     showDialog(
@@ -31,11 +29,11 @@ class Settings extends StatelessWidget {
             actions: [
               TextButton(
                   onPressed: () {
-                    _signOut();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
+                    FirebaseAuth.instance.signOut().then((value) {
+                      print("Signed Out");
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => LoginPage()));
+                    });
                   },
                   child: Text('Logout')),
               TextButton(
@@ -57,6 +55,20 @@ class Settings extends StatelessWidget {
         .snapshots();
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                _alert(context);
+              },
+              child: Icon(
+                Icons.logout,
+                color: kPrimaryColor,
+              ),
+            ),
+          ),
+        ],
         backgroundColor: Colors.white,
         title: Text(
           "Settings",

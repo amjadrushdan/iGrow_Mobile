@@ -28,7 +28,6 @@ class _GroupFeedState extends State<GroupFeed> {
         .where('group_id', isEqualTo: id)
         .snapshots();
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         title: Text(
@@ -95,9 +94,7 @@ class _GroupFeedState extends State<GroupFeed> {
               return Text("something is wrong");
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return SizedBox.shrink();
             }
             final data = snapshot.requireData;
             if (data.docs.isEmpty) {
@@ -149,13 +146,11 @@ class _GroupFeedState extends State<GroupFeed> {
                                     ),
                                     onTap: () {
                                       Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      InfoFriend(
-                                                          docid: snapshot2.data!
-                                                              .docs[0]),
-                                                ));
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => InfoFriend(
+                                                docid: snapshot2.data!.docs[0]),
+                                          ));
                                     },
                                   ),
                                 ),

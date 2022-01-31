@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/friend/add_friend.dart';
 import 'package:flutter_auth/Screens/friend/list_friend.dart';
 import 'package:flutter_auth/Screens/friend/pending_friend.dart';
+import 'package:flutter_auth/Screens/friend/search_friend.dart';
 import 'package:flutter_auth/constants.dart';
 
 class FriendNav extends StatefulWidget {

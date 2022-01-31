@@ -1,19 +1,45 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter_auth/Screens/friend/info_friend.dart';
+import 'package:flutter_auth/Screens/friend/add_info_friend.dart';
 import 'package:flutter_auth/constants.dart';
 
-import '../nav.dart';
+class User {
+  final String name;
+  final String username;
+  final String image;
+  bool isFollowedByMe;
 
-class AllFriends extends StatefulWidget {
-  @override
-  _AllFriendsState createState() => _AllFriendsState();
+  User(this.name, this.username, this.image, this.isFollowedByMe);
 }
 
-class _AllFriendsState extends State<AllFriends> {
+class SearchFriend extends StatefulWidget {
+  const SearchFriend({Key? key}) : super(key: key);
+
+  @override
+  _SearchFriendState createState() => _SearchFriendState();
+}
+
+class _SearchFriendState extends State<SearchFriend> {
+  String _foundedUsers = "";
+
+  @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+
+  //   setState(() {
+  //     _foundedUsers = _users;
+  //   });
+  // }
+
+  onSearch(String search) {
+    setState(() {
+      _foundedUsers = search;
+      print(_foundedUsers);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     String? user = FirebaseAuth.instance.currentUser?.uid;
@@ -27,10 +53,28 @@ class _AllFriendsState extends State<AllFriends> {
         FirebaseFirestore.instance.collection('member').snapshots();
 
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: kPrimaryColor,
-        title: Text(
-          "Friends",
+        title: Container(
+          height: 38,
+          child: TextField(
+            onChanged: (value) => onSearch(value),
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: kBackgroundColor,
+                contentPadding: EdgeInsets.all(0),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: kDarkGreen,
+                ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: BorderSide.none),
+                hintStyle: TextStyle(fontSize: 14, color: kDarkGreen),
+                hintText: "Search users"),
+          ),
         ),
       ),
       body: Center(
@@ -65,13 +109,15 @@ class _AllFriendsState extends State<AllFriends> {
                       }
 
                       var added =
-                          snapshot2.data!.docChanges[0].doc['friend_uid'];
-                      // snapshot2.data!.docChanges[0].doc['pending_uid'];
+                          snapshot2.data!.docChanges[0].doc['friend_uid'] +
+                              snapshot2.data!.docChanges[0].doc['pending_uid'] +
+                              snapshot2.data!.docChanges[0].doc['request_uid'];
                       bool check = added.contains(data.docs[index]['userid']);
-
-                      if (!check) {
-                        return SizedBox.shrink();
-                      } else {
+                      bool check2 = "${data.docs[index]['username']}"
+                          .toLowerCase()
+                          .contains(_foundedUsers.toLowerCase());
+                      print(check2);
+                      if (check) {
                         return Card(
                           elevation: 6,
                           margin: EdgeInsets.all(10),
@@ -82,55 +128,20 @@ class _AllFriendsState extends State<AllFriends> {
                                   "${data.docs[index]['imageUrl']}"),
                             ),
                             title: Text("${data.docs[index]['username']}"),
+                            trailing: Icon(Icons.add),
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => InfoFriend(
-                                        docid: snapshot.data!.docs[index]),
+                                    builder: (context) => AddInfoFriend(
+                                        docid: snapshot.data!.docs[index],
+                                        docuser: snapshot2.data!.docs[0]),
                                   ));
                             },
-                            trailing: Wrap(
-                              spacing: 12, // space between two icons
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(right: 0.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      //reject friend pending
-                                      snapshot.data!.docs[index].reference
-                                          .update({
-                                        'friend_uid':
-                                            FieldValue.arrayRemove([user]),
-                                      }).whenComplete(() {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) => Nav()));
-                                        // Navigator.pop(context);
-                                      });
-                                      snapshot2.data!.docs[0].reference.update({
-                                        'friend_uid': FieldValue.arrayRemove([
-                                          snapshot.data!.docs[index]['userid']
-                                        ]),
-                                      }).whenComplete(() {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) => Nav()));
-                                        // Navigator.pop(context);
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.cancel,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                         );
+                      } else {
+                        return SizedBox.shrink();
                       }
                     },
                   );
