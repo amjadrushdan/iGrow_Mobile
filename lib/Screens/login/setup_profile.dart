@@ -85,7 +85,7 @@ class _SetupProfileState extends State<SetupProfile> {
               setupProfile.add(
                 {
                   'about': about.text,
-                  'age': age,
+                  'age': age.toString(),
                   'district': district.text,
                   'maritalstatus': maritalstatus.text,
                   'occupation': occupation.text,
