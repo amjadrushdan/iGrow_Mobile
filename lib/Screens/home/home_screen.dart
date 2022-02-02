@@ -155,10 +155,17 @@ class _HomeState extends State<Home> {
                                             data.docs[index]["imageUrl"] == ""
                                                 ? SizedBox.shrink()
                                                 : CachedNetworkImage(
-                                                    placeholder: (context,url) => Image(image: AssetImage('assets/images/loading.gif')),
-                                                    imageUrl: data.docs[index]["imageUrl"],
-                                                    errorWidget: (context, url, error) => Icon(Icons.error),
-                                                    fadeInDuration: Duration(milliseconds: 900),
+                                                    placeholder:
+                                                        (context, url) => Image(
+                                                            image: AssetImage(
+                                                                'assets/images/loading.gif')),
+                                                    imageUrl: data.docs[index]
+                                                        ["imageUrl"],
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Icon(Icons.error),
+                                                    fadeInDuration: Duration(
+                                                        milliseconds: 900),
                                                   )
 
                                             // data.docs[index]["imageUrl"] == ""

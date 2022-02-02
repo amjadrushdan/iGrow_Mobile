@@ -88,51 +88,57 @@ class FilterScreenState extends State<FilterScreen> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
+      body: WillPopScope(
+        onWillPop: () {
+          Navigator.pop(context, '');
+          return new Future(() => false);
+        },
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Text("Filter By State", style: TextStyle(color:kDarkGreen)),
-                SizedBox(
-                  height: 10,
-                ),
-                Wrap(
-                  spacing: 8,
-                  direction: Axis.horizontal,
-                  children: techChips(filter_state,kGreyGreen),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text("Filter By Soil", style: TextStyle(color: kDarkGreen)),
-                SizedBox(
-                  height: 10,
-                ),
-                Wrap(
-                  spacing: 8,
-                  direction: Axis.horizontal,
-                  children: techChips(filter_soil,kGreyGreen),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text("Filter By Plants", style: TextStyle(color: kDarkGreen)),
-                SizedBox(
-                  height: 10,
-                ),
-                Wrap(
-                  spacing: 8,
-                  direction: Axis.horizontal,
-                  children: techChips(filter_plant,kGreyGreen),
-                ),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Filter By State", style: TextStyle(color: kDarkGreen)),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Wrap(
+                    spacing: 8,
+                    direction: Axis.horizontal,
+                    children: techChips(filter_state, kGreyGreen),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Filter By Soil", style: TextStyle(color: kDarkGreen)),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Wrap(
+                    spacing: 8,
+                    direction: Axis.horizontal,
+                    children: techChips(filter_soil, kGreyGreen),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Filter By Plants", style: TextStyle(color: kDarkGreen)),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Wrap(
+                    spacing: 8,
+                    direction: Axis.horizontal,
+                    children: techChips(filter_plant, kGreyGreen),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
